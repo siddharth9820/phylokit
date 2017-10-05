@@ -1,5 +1,5 @@
 # phylokit
-C++ library for high performance phylogenetics
+C++ library for high performance phylogenetics. Used in (e.g.) ASTRID, FastRFS, SIESTA.
 
 To build: 
 
@@ -9,4 +9,3 @@ To build:
     make
     sudo make install
     
-more information to be added...
