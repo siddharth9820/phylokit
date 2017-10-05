@@ -17,35 +17,23 @@ NullStream Logger::nstream;
 
 Logger::Logger() {
   string level;
-  if (Options::inited) {
-    Options::get("v verbose", &level);
-    getIlevel(level);
-    setLevel(*this);
-  }
-  else {
-    ilevel = -1;
-    setLevel(*this);
-  }
+  enabled_tags.insert("WARNING");
+  enabled_tags.insert("ERROR");
 }
 
 Logger& Logger::get() {
   static Logger* logger = new Logger();
-  if (logger->ilevel == -1) {
-    delete logger;
-    logger = new Logger();
-  }
-  
   return *logger;
-
 }
 
 ostream& Logger::log(string tag, string fname, int lineno) {
   Logger& logger = get();
-  time_t t = time(nullptr);
-  tm time = *localtime(&t);
 
   
   if (logger.enabled_tags.count(tag)) {
+    time_t t = time(nullptr);
+    tm time = *localtime(&t);
+
 #if defined(__GNUC__) and __GNUC__ >= 5
     cerr << "[" << std::put_time(&time, "%d-%m-%Y %H:%M:%S") << "] " << tag << " {" << rindex(fname.c_str(), '/') + 1 << ":" << lineno << "} " ;
 #else
