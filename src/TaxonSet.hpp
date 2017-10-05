@@ -41,6 +41,11 @@ public:
   const string& operator[](const Taxon i) const {
     return taxa.at(i);
   }
+  
+  const string& get(const Taxon i) const  {
+    return taxa.at(i);
+  }
+  
   size_t size() const;
   Taxon add(const string& str);
   string str() const {
