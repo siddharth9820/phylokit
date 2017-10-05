@@ -29,7 +29,8 @@ public:
   int ffs() const;
   int popcount() const;
   size_t hash() const;
-
+  int overlap_size(const BitVectorFixed& other) const;
+  
   string str() const;
   
   BVFIterator begin() const;

@@ -114,6 +114,14 @@ BVFIterator BitVectorFixed::end() const {
   return BVFIterator();
 }
 
+int BitVectorFixed::overlap_size(const BitVectorFixed& other) const {
+  int ol = 0;
+  for (size_t i = 0; i < cap; i++) {
+    ol += __builtin_popcountl(data[i] & other.data[i]);
+  }
+  return ol;
+}
+
 
 BitVectorFixed BitVectorFixed::operator~() const {
   BitVectorFixed output(size);
