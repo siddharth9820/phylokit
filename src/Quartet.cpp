@@ -94,20 +94,27 @@ QuartetDict::QuartetDict(TaxonSet& ts, string quartetfile) :
     if (s.size() == 0)
       continue;
     w = q.parse(&(s[0]));
-    array[q.a()][q.b()][q.c()][q.d()] = w;
-    array[q.b()][q.a()][q.c()][q.d()] = w;
-    array[q.a()][q.b()][q.d()][q.c()] = w;
-    array[q.b()][q.a()][q.d()][q.c()] = w;
-    array[q.c()][q.d()][q.a()][q.b()] = w;
-    array[q.c()][q.d()][q.b()][q.a()] = w;
-    array[q.d()][q.c()][q.a()][q.b()] = w;
-    array[q.d()][q.c()][q.b()][q.a()] = w;
 
+    set(q.a(),q.b(),q.c(),q.d(),w);
+    
   }  
 }
 
 double QuartetDict::operator()(Taxon a, Taxon b, Taxon c, Taxon d) {
   return array[a][b][c][d];
+}
+
+
+void QuartetDict::set(Taxon a, Taxon b, Taxon c, Taxon d, double val) {
+  array[a][b][c][d] = val;
+  array[b][a][c][d] = val;  
+  array[a][b][d][c] = val;
+  array[b][a][d][c] = val;  
+  array[c][d][a][b] = val;
+  array[c][d][b][a] = val;
+  array[d][c][a][b] = val;
+  array[d][c][b][a] = val;
+
 }
 
 
