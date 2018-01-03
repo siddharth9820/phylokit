@@ -11,7 +11,7 @@ public:
     void setFile() { /* no-op */ }
     template<typename TPrintable>
     NullStream& operator<<(TPrintable const&)
-  { return this;/* no-op */ }
+  { return *this;/* no-op */ }
 };
 
 class Logger {
