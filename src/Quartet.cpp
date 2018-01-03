@@ -69,13 +69,11 @@ string Quartet::str() {
   return ss.str();
 }
 
+
 QuartetDict::QuartetDict(TaxonSet& ts, string quartetfile) :
   ts(ts)
 {
-  Quartet q(ts);
-  string s;
-  double w;
-  ifstream infile(quartetfile);
+
   array_type::extent_gen extents;
   DEBUG << "Making quartet dict with size " << ts.size() << endl;
   array.resize(extents[ts.size()][ts.size()][ts.size()][ts.size()]);
@@ -88,6 +86,19 @@ QuartetDict::QuartetDict(TaxonSet& ts, string quartetfile) :
 	      array[i][j][k][l] = 0;
 	    }
   }
+
+  if (quartetfile.size()) {
+    read_file(quartetfile);
+  }
+};
+
+void QuartetDict::read_file(string quartetfile) {
+  
+  string s;
+  double w;
+  
+  Quartet q(ts);
+  ifstream infile(quartetfile);
   
   while(!infile.eof()) {
     getline(infile, s);
@@ -99,6 +110,7 @@ QuartetDict::QuartetDict(TaxonSet& ts, string quartetfile) :
     
   }  
 }
+
 
 double QuartetDict::operator()(Taxon a, Taxon b, Taxon c, Taxon d) {
   return array[a][b][c][d];

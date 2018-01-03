@@ -26,6 +26,9 @@ private:
 class QuartetDict {
 public:
   QuartetDict(TaxonSet& ts, string quartetfile);
+
+  void read_file(string quartetfile);
+  
   static QuartetDict* cl(TaxonSet& ts);
   double operator()(Taxon a, Taxon b, Taxon c, Taxon d);
   double operator()(Quartet& q);
