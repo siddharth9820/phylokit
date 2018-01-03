@@ -21,7 +21,6 @@ private:
   unordered_set<string> taxa_set;
   vector<string> taxa;
   map<string, Taxon> index;
-  map<clade_bitset, Clade&> clade_map;
   bool frozen;
 public:
   clade_bitset taxa_bs;
