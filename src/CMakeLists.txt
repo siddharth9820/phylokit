@@ -24,7 +24,7 @@ if(Boost_FOUND)
 
   
 elseif(NOT Boost_FOUND)
-
+  INCLUDE_DIRECTORIES("boost/" /usr/include/python2.7)
 endif()
 
 ADD_LIBRARY(phylokit_shared SHARED ${SOURCES} )
