@@ -54,7 +54,7 @@ boost::python::list newick_to_tax_indices_(const string& tree, TaxonSet& ts) {
   return indices;
 }
 
-BOOST_PYTHON_MODULE(libphylokit)
+BOOST_PYTHON_MODULE(libpyphylokit)
 {
 
   class_<TaxonSet>("TaxonSet", init<int>())

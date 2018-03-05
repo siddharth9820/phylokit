@@ -18,7 +18,7 @@ if(Boost_FOUND)
   FIND_PACKAGE(Boost 1.45.0 COMPONENTS python)
 
   ADD_LIBRARY(phylokit_python SHARED pyext/bindings.cxx ${SOURCES} )
-  SET_TARGET_PROPERTIES(phylokit_python PROPERTIES OUTPUT_NAME phylokit_py) 
+  SET_TARGET_PROPERTIES(phylokit_python PROPERTIES OUTPUT_NAME pyphylokit) 
   TARGET_LINK_LIBRARIES(phylokit_python ${Boost_LIBRARIES} )  
 
 
