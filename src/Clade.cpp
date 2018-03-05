@@ -8,6 +8,7 @@
 #include <algorithm>
 #include <cstring>
 #include <cmath>
+#define strtok_r strtok_s
 
 Clade::Clade(TaxonSet& ts_, string& str) :
   taxa(ts_.size()),
@@ -16,9 +17,12 @@ Clade::Clade(TaxonSet& ts_, string& str) :
 {
   char* cladestr = &(str[1]);
   char* token;
+
   char* saveptr;
 
-  while((token = strtok_r(cladestr, ",} ", &saveptr))) {
+  while ((token = strtok_r(cladestr, ",} ", &saveptr))) {
+
+  
     cladestr = NULL;
     add(ts[string(&(token[0]))]);
   }
@@ -160,11 +164,10 @@ string Bipartition::str() const {
   return "{" + a1.str() + " " + a2.str() + "}";
 }
 
-namespace std
-{
+
     template<>
-    void swap<Clade>(Clade& lhs, Clade& rhs)
+    static void std::swap<Clade>(Clade& lhs, Clade& rhs)
     {
       lhs.do_swap(rhs);
     }
-}
+

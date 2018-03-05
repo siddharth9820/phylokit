@@ -17,7 +17,7 @@ int newick_to_ts(const string& s, unordered_set<string>& taxa) {
 
     if (tok == ":" || tok == "," || tok == "(" || tok == ")") {
     } else {
-      if (prevtok == ")" or prevtok == ":") {	
+      if ((prevtok == ")") || (prevtok == ":")) {	
 	continue;
       }
       if(tok.find_first_not_of(' ') != string::npos) {
@@ -50,7 +50,7 @@ Clade newick_to_taxa(const string& s, TaxonSet& ts) {
     else if (tok == ":") {
     } else if (tok == ",") {
     } else {
-      if (prevtok == ")" or prevtok == ":" or (tok == " " and prevtok == ",")) {
+      if ((prevtok == ")") || (prevtok == ":") || (tok == " " && prevtok == ",")) {
 	continue;
       }
       boost::algorithm::trim(tok);
@@ -100,7 +100,7 @@ void newick_to_dm(const string& s, TaxonSet& ts, dm_type& dist_mat, dm_type& mas
     else if (tok == ":") {
     } else if (tok == ",") {
     } else {
-      if (prevtok == ")" or prevtok == ":" or (tok == " " and prevtok == ",")) {
+      if (prevtok == ")" || prevtok == ":" || (tok == " " && prevtok == ",")) {
 	continue;
       }
       boost::algorithm::trim(tok);
@@ -141,7 +141,7 @@ void newick_to_clades(const string& s, TaxonSet& ts, unordered_set<Clade>& clade
     else if (tok == ":") {
     } else if (tok == ",") {
     } else {
-      if (prevtok == ")" or prevtok == ":" or (tok == " " and prevtok == ",")) {
+      if ((prevtok == ")") || (prevtok == ":" ) || (tok == " " && prevtok == ",")) {
 	continue;
       }
       boost::algorithm::trim(tok);
@@ -182,7 +182,7 @@ void newick_to_postorder(const string& s, TaxonSet& ts, vector<Taxon>& order) {
     else if (tok == ":") {      
     } else if (tok == ",") {
     } else {
-      if (prevtok == ")" or prevtok == ":" or (tok == " " and prevtok == ",")) {
+      if (prevtok == ")" || prevtok == ":" || (tok == " " && prevtok == ",")) {
 	continue;
       }
       sizes.back() ++;
@@ -219,7 +219,7 @@ string map_newick_names(const string& s, TaxonSet& ts) {
     } else if (tok == ",") {
       output << ",";
     } else {
-      if (prevtok == ")" or prevtok == ":" or (tok == " " and prevtok == ",")) {
+      if (prevtok == ")" || prevtok == ":" || (tok == " " && prevtok == ",")) {
 	continue;
       }
       boost::algorithm::trim(tok);
@@ -257,7 +257,7 @@ string unmap_newick_names(const string& s, TaxonSet& ts) {
     } else if (tok == ",") {
       output << ",";
     } else {
-      if (prevtok == ")" or prevtok == ":" or (tok == " " and prevtok == ",")) {
+      if (prevtok == ")" || prevtok == ":" || (tok == " " && prevtok == ",")) {
 	continue;
       }
       boost::algorithm::trim(tok);
@@ -297,7 +297,7 @@ string unmap_clade_names(const string& s, TaxonSet& ts) {
     else if (tok == ",") {
       output << ",";
     } else {
-      if (prevtok == "}" or prevtok == ":" or (tok == " " and prevtok == ",")) {
+      if (prevtok == "}" || prevtok == ":" || (tok == " " && prevtok == ",")) {
 	continue;
       }
       boost::algorithm::trim(tok);

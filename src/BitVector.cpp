@@ -1,10 +1,15 @@
 #include "BitVector.hpp"
-#include <string.h>
 #include <functional>
+#include <string.h>
 #include <sstream>
 #include <bitset>
 #include <cassert>
 #include <iostream>
+
+#ifdef _WIN32
+#include <intrin.h>  
+
+#endif
 
 // BitVectorFixed::BitVectorFixed() :
 //   size(0),
@@ -77,6 +82,17 @@ bool BitVectorFixed::get(int i) const {
 int BitVectorFixed::ffs() const {
   size_t i;
   int ans = 0;
+#ifdef _WIN32
+  unsigned long index;
+  for (i = 0; i < cap && !_BitScanForward64(&index, data[i]); i++) {
+	  ans += sizeof(elem_type) * 8;
+  }
+  if (i == cap) {
+	  return -1;
+  }
+  _BitScanForward64(&index, data[i]);
+  return ans + index;
+#else
   for(i = 0; i < cap && !ffsl(data[i]); i++) {
     ans += sizeof(elem_type) * 8;
   }
@@ -84,12 +100,17 @@ int BitVectorFixed::ffs() const {
     return -1;
   }
   return ans + ffsl(data[i]) - 1;
+#endif
 }
 
 int BitVectorFixed::popcount() const {
   int ans = 0;
   for (size_t i = 0; i < cap; i++) {
+#ifdef _WIN32
+	  ans += __popcnt64	(data[i]);
+#else
     ans += __builtin_popcountl(data[i]);
+#endif
   }
   return ans;
 }
@@ -117,7 +138,12 @@ BVFIterator BitVectorFixed::end() const {
 int BitVectorFixed::overlap_size(const BitVectorFixed& other) const {
   int ol = 0;
   for (size_t i = 0; i < cap; i++) {
-    ol += __builtin_popcountl(data[i] & other.data[i]);
+#ifdef _WIN32
+	  ol += __popcnt64(data[i] & other.data[i]);
+#else
+	  ol += __builtin_popcountl(data[i] & other.data[i]);
+#endif
+    
   }
   return ol;
 }
@@ -179,11 +205,8 @@ void BitVectorFixed::do_swap(BitVectorFixed& other) {
   assert(other.data);
 }
  
-namespace std
-{
     template<>
-    void swap<BitVectorFixed>(BitVectorFixed& lhs, BitVectorFixed& rhs)
+    static void std::swap<BitVectorFixed>(BitVectorFixed& lhs, BitVectorFixed& rhs)
     {
       lhs.do_swap(rhs);
     }
-}
