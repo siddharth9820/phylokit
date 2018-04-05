@@ -80,7 +80,7 @@ string Clade::str() const {
   }
 
   sort(strings.begin(), strings.end());
-  
+
   ss << '{';
   for (string s : strings) {
     ss << s << ", ";
@@ -112,12 +112,12 @@ int Clade::overlap_size(const Clade& other) const {
 bool Clade::contains(const Clade& other) const {
   if (other.size() > size())
     return false;
-  
-  bool status = 1;  
+
+  bool status = 1;
   for (size_t i = 0; i < taxa.cap; i++) {
     status &= ((other.taxa.data[i] & taxa.data[i]) == other.taxa.data[i]);
   }
-  
+
   return status;
 }
 bool Clade::contains(const Taxon taxon) const {
@@ -133,13 +133,28 @@ void Clade::add(const Taxon taxon) {
   sz++;
 }
 
+
+
 Clade Clade::complement() const {
   BitVectorFixed comp = ts.taxa_bs & (~taxa);
   Clade c(ts, comp);
   return c;
 }
 
+
+Clade Clade::operator-(const Clade& other) const {
+  return minus(other);
+}
 Clade Clade::minus(const Clade& other) const {
+  BitVectorFixed m(taxa & (~other.taxa));
+  Clade c(ts, m);
+  return c;
+}
+
+Clade Clade::operator+(const Clade& other) const {
+  return plus(other);
+}
+Clade Clade::plus(const Clade& other) const {
   BitVectorFixed m(taxa & (~other.taxa));
   Clade c(ts, m);
   return c;

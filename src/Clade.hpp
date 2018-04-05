@@ -21,20 +21,20 @@ public:
   TaxonSet& ts;
 
   int sz;
-  
+
   Clade(TaxonSet& ts, string& str);
   Clade(TaxonSet& ts, const clade_bitset& taxa);
   Clade(TaxonSet& ts, const unordered_set<Taxon>& taxa);
   Clade(TaxonSet& ts);
   Clade(const Clade& other);
-  
+
   Clade& operator=(const Clade& other);
   bool operator==(const Clade& other) const;
-  
-  
+
+
   string str() const;
 
-  
+
   bool contains(const Clade& other) const;
   bool contains(const Taxon taxon) const;
 
@@ -44,20 +44,23 @@ public:
   int overlap_size(const Clade& other) const ;
 
   static void test();
-  
+
   void add(const Taxon taxon);
   Clade complement() const;
   Clade minus(const Clade& other) const;
+  Clade plus(const Clade& other) const;
+  Clade operator-(const Clade& other) const;
+  Clade operator+(const Clade& other) const;
 
   int size() const;
   const clade_bitset& get_taxa() const {return taxa;}
-  
+
 
 
   BVFIterator begin() const {
     return taxa.begin();
   }
-  
+
   BVFIterator end() const {
     return taxa.end();
   }
@@ -73,7 +76,7 @@ struct TripartitionG {
     a1(clade.minus(subclade)),
     a2(subclade),
     rest(clade.complement()){ }
-  
+
   string str() const  {
     assert(a1.overlap(rest).size() == 0);
     assert(a2.overlap(rest).size() == 0);
