@@ -23,6 +23,7 @@ public:
   int sz;
 
   Clade(TaxonSet& ts, string& str);
+  Clade(TaxonSet& ts, Taxon t);
   Clade(TaxonSet& ts, const clade_bitset& taxa);
   Clade(TaxonSet& ts, const unordered_set<Taxon>& taxa);
   Clade(TaxonSet& ts);
@@ -39,6 +40,7 @@ public:
   bool contains(const Taxon taxon) const;
 
   bool compatible(const Clade& other) const;
+  bool compatible(const Clade& other, const Clade& restr) const;
 
   Clade overlap(const Clade& other) const;
   int overlap_size(const Clade& other) const ;
@@ -46,11 +48,26 @@ public:
   static void test();
 
   void add(const Taxon taxon);
+  void remove(const Taxon taxon);
+  void add(const Clade& other);
+  void remove(const Clade& other);
   Clade complement() const;
   Clade minus(const Clade& other) const;
   Clade plus(const Clade& other) const;
+  Clade minus(const Taxon other) const;
+  Clade plus(const Taxon other) const;
+
+  Clade operator-=(const Clade& other);
+  Clade operator+=(const Clade& other);
+  Clade operator-=(const Taxon other);
+  Clade operator+=(const Taxon other);
+
+
   Clade operator-(const Clade& other) const;
   Clade operator+(const Clade& other) const;
+  Clade operator-(const Taxon other) const;
+  Clade operator+(const Taxon other) const;
+
 
   int size() const;
   const clade_bitset& get_taxa() const {return taxa;}
@@ -68,6 +85,8 @@ public:
   void do_swap(Clade& other);
   size_t hash() const { return taxa.hash(); }
 };
+
+ostream& operator<<(ostream& os, const Clade& c);
 
 template<class c>
 struct TripartitionG {

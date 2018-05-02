@@ -28,23 +28,32 @@ public:
   TaxonSet(int size);
   TaxonSet(string str);
 
+
+  BVFIterator begin() const {
+    return taxa_bs.begin();
+  }
+
+  BVFIterator end() const {
+    return taxa_bs.end();
+  }
+
   int resize_clades(string str);
-  
+
   void add_clade_taxa(string str, unordered_set<string>& taxa_set);
 
   void freeze();
-  
+
   Taxon operator[](const string& str) {
     return add(str);
   }
   const string& operator[](const Taxon i) const {
     return taxa.at(i);
   }
-  
+
   const string& get(const Taxon i) const  {
     return taxa.at(i);
   }
-  
+
   size_t size() const;
   Taxon add(const string& str);
   string str() const {

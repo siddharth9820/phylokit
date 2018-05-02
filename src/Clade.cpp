@@ -30,6 +30,15 @@ Clade::Clade(TaxonSet& ts_) :
   sz(0)
 {}
 
+
+Clade::Clade(TaxonSet& ts_, Taxon t) :
+  taxa(ts_.size()),
+  ts(ts_),
+  sz(0)
+{
+  add(t);
+}
+
 Clade::Clade(TaxonSet& ts_, const clade_bitset& taxa) :
   taxa(taxa),
   ts(ts_),
@@ -120,6 +129,19 @@ bool Clade::contains(const Clade& other) const {
 
   return status;
 }
+
+bool Clade::contains(const Clade& other, const Clade& restr) const {
+  if (other.taxa.size() > size())
+    return false;
+
+  bool status = 1;
+  for (size_t i = 0; i < taxa.cap; i++) {
+    status &= ((other.taxa.data[i] & taxa.data[i] & restr.taxa.data[i]) == other.taxa.data[i] & restr.taxa.data[i]);
+  }
+
+  return status;
+}
+
 bool Clade::contains(const Taxon taxon) const {
   return taxa.get(taxon);
 }
@@ -128,11 +150,31 @@ bool Clade::compatible(const Clade& other) const {
   return contains(other) || other.contains(*this) || overlap_size(other) == 0;
 }
 
+bool Clade::compatible(const Clade& other, const Clade& restr) const {
+  return contains(other) || other.contains(*this) || overlap_size(other) == 0;
+}
+
 void Clade::add(const Taxon taxon) {
   taxa.set(taxon);
   sz++;
 }
 
+void Clade::remove(const Taxon taxon) {
+  taxa.unset(taxon);
+  sz--;
+}
+
+
+void Clade::add(const Clade& other) {
+  taxa &= other.taxa;
+  sz = taxa.popcount();
+}
+
+void Clade::remove(const Clade& other) {
+  taxa &= ~other.taxa;
+  sz = taxa.popcount();
+
+}
 
 
 Clade Clade::complement() const {
@@ -141,23 +183,51 @@ Clade Clade::complement() const {
   return c;
 }
 
-
-Clade Clade::operator-(const Clade& other) const {
-  return minus(other);
-}
 Clade Clade::minus(const Clade& other) const {
   BitVectorFixed m(taxa & (~other.taxa));
   Clade c(ts, m);
   return c;
 }
+Clade Clade::plus(const Clade& other) const {
+  BitVectorFixed m(taxa | other.taxa);
+  Clade c(ts, m);
+  return c;
+}
+
+Clade Clade::minus(const Taxon other) {
+  Clade c(ts, taxa);
+  c.remove(other);
+  return c;
+}
+Clade Clade::plus(const Taxon other) {
+  Clade c(ts, taxa);
+  c.add(other);
+  return c;
+}
+
 
 Clade Clade::operator+(const Clade& other) const {
   return plus(other);
 }
-Clade Clade::plus(const Clade& other) const {
-  BitVectorFixed m(taxa & (~other.taxa));
-  Clade c(ts, m);
-  return c;
+
+Clade Clade::operator-(const Clade& other) const {
+  return minus(other);
+}
+
+
+
+Clade Clade::operator+(const Taxon other) const {
+  return plus(other);
+}
+
+Clade Clade::operator-(const Taxon other) const {
+  return minus(other);
+}
+
+
+ostream& operator<<(ostream& os, const Clade& c) {
+  os << c.str();
+  return os;
 }
 
 int Clade::size() const {

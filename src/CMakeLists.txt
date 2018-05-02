@@ -18,23 +18,23 @@ if(Boost_FOUND)
   FIND_PACKAGE(Boost 1.45.0 COMPONENTS python)
 
   ADD_LIBRARY(phylokit_python SHARED pyext/bindings.cxx ${SOURCES} )
-  SET_TARGET_PROPERTIES(phylokit_python PROPERTIES OUTPUT_NAME pyphylokit) 
-  TARGET_LINK_LIBRARIES(phylokit_python ${Boost_LIBRARIES} )  
+  SET_TARGET_PROPERTIES(phylokit_python PROPERTIES OUTPUT_NAME pyphylokit)
+  TARGET_LINK_LIBRARIES(phylokit_python ${Boost_LIBRARIES} )
 
 
-  
+
 elseif(NOT Boost_FOUND)
   INCLUDE_DIRECTORIES("boost/" /usr/include/python2.7)
 endif()
 
 ADD_LIBRARY(phylokit_shared SHARED ${SOURCES} )
-SET_TARGET_PROPERTIES(phylokit_shared PROPERTIES OUTPUT_NAME phylokit) 
-TARGET_LINK_LIBRARIES(phylokit_shared ${Boost_LIBRARIES} )  
+SET_TARGET_PROPERTIES(phylokit_shared PROPERTIES OUTPUT_NAME phylokit)
+TARGET_LINK_LIBRARIES(phylokit_shared ${Boost_LIBRARIES} )
 
 
 ADD_LIBRARY(phylokit_static STATIC ${SOURCES})
-SET_TARGET_PROPERTIES(phylokit_static PROPERTIES OUTPUT_NAME phylokit)  
-
+SET_TARGET_PROPERTIES(phylokit_static PROPERTIES OUTPUT_NAME phylokit)
+set_target_properties(phylokit_static PROPERTIES LINK_FLAGS "-static" )
 
 install(FILES ${HEADERS} DESTINATION include/)
 install(FILES ${UHEADERS} DESTINATION include/util/)
