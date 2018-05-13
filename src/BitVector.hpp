@@ -22,7 +22,7 @@ public:
   ~BitVectorFixed();
   BitVectorFixed& operator= (const BitVectorFixed& other);
   void resize(size_t sz);
-  
+
   void set(int i);
   void unset(int i);
   bool get(int i) const;
@@ -30,20 +30,23 @@ public:
   int popcount() const;
   size_t hash() const;
   int overlap_size(const BitVectorFixed& other) const;
-  
+
   string str() const;
-  
+
   BVFIterator begin() const;
   BVFIterator end() const;
 
   void do_swap(BitVectorFixed& other);
-  
+
   bool operator== (const BitVectorFixed& other) const;
   BitVectorFixed operator&(const BitVectorFixed& other) const;
+  BitVectorFixed& operator &=(const BitVectorFixed& other);
   BitVectorFixed operator|(const BitVectorFixed& other) const;
+  BitVectorFixed& operator |=(const BitVectorFixed& other);
   BitVectorFixed operator^(const BitVectorFixed& other) const;
+  BitVectorFixed& operator ^=(const BitVectorFixed& other);	  
   BitVectorFixed operator~() const;
-  
+
 };
 
 
@@ -62,9 +65,9 @@ class BVFIterator {
 public:
   BVFIterator() : data(1), current(-1) {}
   BVFIterator(const BitVectorFixed& data) : data(data) {
-    
+
     increment();
-    
+
   }
   BVFIterator& operator++() {
     increment();

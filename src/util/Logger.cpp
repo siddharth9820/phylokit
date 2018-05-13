@@ -9,10 +9,10 @@
 using namespace std;
 
 int Logger::ilevel;
-set<string> Logger::enabled_tags;
-set<string> Logger::enabled_files;
-set<string> Logger::disabled_tags;
-set<string> Logger::disabled_files;
+unordered_set<string> Logger::enabled_tags;
+unordered_set<string> Logger::enabled_files;
+unordered_set<string> Logger::disabled_tags;
+unordered_set<string> Logger::disabled_files;
 NullStream Logger::nstream;
 
 Logger::Logger() {
@@ -29,7 +29,7 @@ Logger& Logger::get() {
 ostream& Logger::log(string tag, string fname, int lineno) {
   Logger& logger = get();
 
-  
+
   if (logger.enabled_tags.count(tag)) {
     time_t t = time(nullptr);
     tm time = *localtime(&t);
@@ -87,11 +87,11 @@ void Logger::getIlevel(string& level) {
   if (level == "progress")
     return;
   ilevel++;
-  if (level == "info") 
+  if (level == "info")
     return;
   ilevel++;
-  if (level == "debug") 
+  if (level == "debug")
     return;
   return;
-  
+
 }

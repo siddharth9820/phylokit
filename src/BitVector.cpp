@@ -106,7 +106,7 @@ size_t BitVectorFixed::hash() const {
   }
   return h;
 }
-    
+
 BVFIterator BitVectorFixed::begin() const {
     return BVFIterator(*this);
   }
@@ -139,6 +139,13 @@ BitVectorFixed BitVectorFixed::operator&(const BitVectorFixed& other) const {
   return output;
 }
 
+BitVectorFixed& BitVectorFixed::operator&=(const BitVectorFixed& other) {
+  for (size_t i = 0; i < cap; i++) {
+    data[i] = data[i] & other.data[i];
+  }
+  return *this;
+}
+
 BitVectorFixed BitVectorFixed::operator|(const BitVectorFixed& other) const {
   BitVectorFixed output(size);
   for (size_t i = 0; i < cap; i++) {
@@ -147,6 +154,12 @@ BitVectorFixed BitVectorFixed::operator|(const BitVectorFixed& other) const {
   return output;
 }
 
+BitVectorFixed& BitVectorFixed::operator|=(const BitVectorFixed& other) {
+  for (size_t i = 0; i < cap; i++) {
+    data[i] = data[i] | other.data[i];
+  }
+  return *this;
+}
 
 BitVectorFixed BitVectorFixed::operator^(const BitVectorFixed& other) const {
   BitVectorFixed output(size);
@@ -156,6 +169,13 @@ BitVectorFixed BitVectorFixed::operator^(const BitVectorFixed& other) const {
   return output;
 }
 
+
+BitVectorFixed& BitVectorFixed::operator^=(const BitVectorFixed& other) {
+  for (size_t i = 0; i < cap; i++) {
+    data[i] = data[i] ^ other.data[i];
+  }
+  return *this;
+}
 
 string BitVectorFixed::str() const {
   stringstream ss;
@@ -178,7 +198,7 @@ void BitVectorFixed::do_swap(BitVectorFixed& other) {
   assert(data);
   assert(other.data);
 }
- 
+
 namespace std
 {
     template<>

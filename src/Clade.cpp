@@ -130,17 +130,6 @@ bool Clade::contains(const Clade& other) const {
   return status;
 }
 
-bool Clade::contains(const Clade& other, const Clade& restr) const {
-  if (other.taxa.size() > size())
-    return false;
-
-  bool status = 1;
-  for (size_t i = 0; i < taxa.cap; i++) {
-    status &= ((other.taxa.data[i] & taxa.data[i] & restr.taxa.data[i]) == other.taxa.data[i] & restr.taxa.data[i]);
-  }
-
-  return status;
-}
 
 bool Clade::contains(const Taxon taxon) const {
   return taxa.get(taxon);
@@ -194,12 +183,12 @@ Clade Clade::plus(const Clade& other) const {
   return c;
 }
 
-Clade Clade::minus(const Taxon other) {
+Clade Clade::minus(const Taxon other) const {
   Clade c(ts, taxa);
   c.remove(other);
   return c;
 }
-Clade Clade::plus(const Taxon other) {
+Clade Clade::plus(const Taxon other) const {
   Clade c(ts, taxa);
   c.add(other);
   return c;

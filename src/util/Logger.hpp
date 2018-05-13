@@ -1,7 +1,7 @@
 #ifndef __LOGGER_HPP__
 #define __LOGGER_HPP__
 
-#include <set>
+#include <unordered_set>
 #include <iostream>
 
 using namespace std;
@@ -21,19 +21,19 @@ public:
   static void enable(string tag);
   static bool isEnabled(string tag);
   static void enable(string tag, Logger& logger);
-  
+
   static void disable(string tag);
   static void setLevel(Logger& logger);
 private:
   Logger();
-  static set<string> enabled_tags;
-  static set<string> enabled_files;
-  static set<string> disabled_tags;
-  static set<string> disabled_files;
+  static unordered_set<string> enabled_tags;
+  static unordered_set<string> enabled_files;
+  static unordered_set<string> disabled_tags;
+  static unordered_set<string> disabled_files;
   static int ilevel;
   static void getIlevel(string& level);
   static NullStream nstream;
-  
+
 };
 
 #define LOG(tag) (Logger::isEnabled(tag)) && (Logger::log((tag), (__BASE_FILE__), (__LINE__)))
