@@ -16,7 +16,11 @@ private:
 public:
   DistanceMatrix(TaxonSet& ts);
   DistanceMatrix(TaxonSet& ts, string newick);
-
+  DistanceMatrix(const DistanceMatrix& other) :
+    ts(other.ts),
+    d(other.d),
+    mask_(other.mask_)
+  {}
 
   double& get(Taxon t1, Taxon t2, vector<double>& myD);
   double get(Taxon t1, Taxon t2, const vector<double>& myD) const;
@@ -39,6 +43,14 @@ public:
   double& masked(Taxon t1, Taxon t2) {
     return get(t1, t2, mask_);
   }
+
+
+  DistanceMatrix& operator=(const DistanceMatrix& other) {
+    ts = other.ts;
+    d = other.d;
+    mask_ = other.mask_;
+  }
+
 
   DistanceMatrix& operator+=(const DistanceMatrix& other) {
     for (int i= 0; i < d.size(); i++) {

@@ -155,7 +155,7 @@ void Clade::remove(const Taxon taxon) {
 
 
 void Clade::add(const Clade& other) {
-  taxa &= other.taxa;
+  taxa |= other.taxa;
   sz = taxa.popcount();
 }
 
@@ -211,6 +211,24 @@ Clade Clade::operator+(const Taxon other) const {
 
 Clade Clade::operator-(const Taxon other) const {
   return minus(other);
+}
+
+
+Clade& Clade::operator-=(const Clade& other){
+  remove(other);
+  return *this;
+}
+Clade& Clade::operator+=(const Clade& other){
+  add(other);
+  return *this;
+}
+Clade& Clade::operator-=(const Taxon other){
+  remove(other);
+  return *this;
+}
+Clade& Clade::operator+=(const Taxon other){
+  add(other);
+  return *this;
 }
 
 

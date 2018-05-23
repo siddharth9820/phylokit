@@ -40,3 +40,6 @@ install(FILES ${HEADERS} DESTINATION include/)
 install(FILES ${UHEADERS} DESTINATION include/util/)
 install(TARGETS phylokit_static DESTINATION lib/)
 install(TARGETS phylokit_shared DESTINATION lib/)
+
+
+ADD_EXECUTABLE(phylokit_test ${SOURCES} Tests/test.cpp Tests/runner.cpp)

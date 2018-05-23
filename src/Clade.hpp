@@ -57,10 +57,10 @@ public:
   Clade minus(const Taxon other) const;
   Clade plus(const Taxon other) const;
 
-  Clade operator-=(const Clade& other);
-  Clade operator+=(const Clade& other);
-  Clade operator-=(const Taxon other);
-  Clade operator+=(const Taxon other);
+  Clade& operator-=(const Clade& other);
+  Clade& operator+=(const Clade& other);
+  Clade& operator-=(const Taxon other);
+  Clade& operator+=(const Taxon other);
 
 
   Clade operator-(const Clade& other) const;

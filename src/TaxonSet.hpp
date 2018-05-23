@@ -46,6 +46,10 @@ public:
   Taxon operator[](const string& str) {
     return add(str);
   }
+
+  Taxon operator[](const string& str) const {
+    return index.at(str);
+  }
   const string& operator[](const Taxon i) const {
     return taxa.at(i);
   }
