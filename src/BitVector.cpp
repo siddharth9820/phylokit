@@ -7,7 +7,7 @@
 #include <iostream>
 
 #ifdef _WIN32
-#include <intrin.h>  
+#include <intrin.h>
 
 #endif
 
@@ -40,6 +40,7 @@ void BitVectorFixed::resize(size_t sz) {
   if (data)
     delete[] data;
   data = new elem_type [cap];
+  memset(data, 0, cap * sizeof(elem_type));
   assert(data);
 }
 
@@ -127,7 +128,7 @@ size_t BitVectorFixed::hash() const {
   }
   return h;
 }
-    
+
 BVFIterator BitVectorFixed::begin() const {
     return BVFIterator(*this);
   }
@@ -143,7 +144,7 @@ int BitVectorFixed::overlap_size(const BitVectorFixed& other) const {
 #else
 	  ol += __builtin_popcountl(data[i] & other.data[i]);
 #endif
-    
+
   }
   return ol;
 }
@@ -204,7 +205,7 @@ void BitVectorFixed::do_swap(BitVectorFixed& other) {
   assert(data);
   assert(other.data);
 }
- 
+
     template<>
     static void std::swap<BitVectorFixed>(BitVectorFixed& lhs, BitVectorFixed& rhs)
     {
