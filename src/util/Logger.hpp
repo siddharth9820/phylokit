@@ -4,10 +4,14 @@
 #include <unordered_set>
 #include <iostream>
 
+#ifdef _WIN32
+#define __BASE_FILE__ __FILE__
+#endif
 using namespace std;
 
 class NullStream : public ostream {
 public:
+	NullStream() : ostream(NULL) {}
     void setFile() { /* no-op */ }
     template<typename TPrintable>
     NullStream& operator<<(TPrintable const&)

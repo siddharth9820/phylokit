@@ -3,7 +3,6 @@
 #include <string>
 #include <vector>
 #include <map>
-#include <getopt.h>
 using namespace std;
 
 class Options {

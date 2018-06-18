@@ -3,6 +3,7 @@
 #include <cstring>
 #include <cassert>
 
+#define strtok_r strtok_s
 TaxonSet::TaxonSet(int size):
   taxa_bs(size),
   frozen(false) {
@@ -46,9 +47,11 @@ void TaxonSet::add_clade_taxa(string str, unordered_set<string>& taxa_set) {
   char* cladestr = &(str[1]);
   
   char* token;
+
   char* saveptr;
-  
+
   while(token = strtok_r(cladestr, ",} ", &saveptr)) {
+
     cladestr = NULL;
     taxa_set.insert(string(&(token[0])));
   }
