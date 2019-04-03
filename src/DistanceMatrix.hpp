@@ -49,24 +49,25 @@ public:
     ts = other.ts;
     d = other.d;
     mask_ = other.mask_;
+    return *this;
   }
 
 
   DistanceMatrix& operator+=(const DistanceMatrix& other) {
-    for (int i= 0; i < d.size(); i++) {
+    for (size_t i= 0; i < d.size(); i++) {
       d[i] += other.d[i];
     }
-    for (int i= 0; i < mask_.size(); i++) {
+    for (size_t i= 0; i < mask_.size(); i++) {
       mask_[i] += other.mask_[i];
     }
     return *this;
   }
 
   DistanceMatrix& operator*=(const double val) {
-    for (int i= 0; i < d.size(); i++) {
+    for (size_t i= 0; i < d.size(); i++) {
       d[i] *= val;
     }
-    for (int i= 0; i < mask_.size(); i++) {
+    for (size_t i= 0; i < mask_.size(); i++) {
       mask_[i] *= val;
     }
     return *this;

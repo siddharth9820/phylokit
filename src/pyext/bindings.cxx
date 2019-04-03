@@ -32,8 +32,8 @@ void newick_to_dm_(const string& tree, TaxonSet& ts , object& dists, object& mas
   
   newick_to_dm(tree, ts, dist_mat, mask_mat);
   
-  for (int i = 0; i < ts.size(); i++) {
-    for (int j = 0; j < ts.size(); j++) {
+  for (size_t i = 0; i < ts.size(); i++) {
+    for (size_t j = 0; j < ts.size(); j++) {
       *(double*)PyArray_GETPTR2(dists.ptr(), i, j) = dist_mat[i][j];
       *(double*)PyArray_GETPTR2(masks.ptr(), i, j) = mask_mat[i][j]; 
     }

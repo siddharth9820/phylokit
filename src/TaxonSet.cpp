@@ -4,13 +4,13 @@
 #include <cassert>
 
 TaxonSet::TaxonSet(int size):
-  taxa_bs(size),
-  frozen(false) {
+  frozen(false),
+  taxa_bs(size) {
 }
 
 TaxonSet::TaxonSet(string str):
-  taxa_bs(resize_clades(str)),
-  frozen(false)
+  frozen(false),  
+  taxa_bs(resize_clades(str))
 {
   static int exists = 0;
   if (exists) {
@@ -48,7 +48,7 @@ void TaxonSet::add_clade_taxa(string str, unordered_set<string>& taxa_set) {
   char* token;
   char* saveptr;
   
-  while(token = strtok_r(cladestr, ",} ", &saveptr)) {
+  while((token = strtok_r(cladestr, ",} ", &saveptr))) {
     cladestr = NULL;
     taxa_set.insert(string(&(token[0])));
   }

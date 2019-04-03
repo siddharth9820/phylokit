@@ -72,6 +72,9 @@ void Options::init(int argc_, const char** argv_) {
       if (last_option != "") {
 	opts_map[last_option] = "";
       }
+      break;
+    case EMPTY:
+      break;
     }
 
   }

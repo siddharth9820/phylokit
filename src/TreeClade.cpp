@@ -195,7 +195,7 @@ void Tree::LCA(DistanceMatrix& lca) const {
 
 double Tree::RFDist(const Tree& other, bool normalized) const {
   unordered_set<Clade> my_clades;
-  for (int i = 1; i < clades.size(); i++) {
+  for (size_t i = 1; i < clades.size(); i++) {
     Clade ol = clades.at(i).overlap(other.taxa());
     my_clades.emplace(ol);
 //    cout << "adding " << ol << endl;
@@ -204,7 +204,7 @@ double Tree::RFDist(const Tree& other, bool normalized) const {
   double matching = 0;
   double count    = 0;
 
-  for (int i = 1; i < other.clades.size(); i++) {
+  for (size_t i = 1; i < other.clades.size(); i++) {
     if (other.clades.at(i).overlap_size(taxa()) <= 1) {
       continue;
     }
