@@ -58,6 +58,10 @@ public:
     return taxa.at(i);
   }
 
+  bool has(const string& str) const {
+    return index.count(str) > 0;
+  }
+
   size_t size() const;
   Taxon add(const string& str);
   string str() const {
