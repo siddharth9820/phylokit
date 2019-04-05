@@ -12,11 +12,6 @@ TaxonSet::TaxonSet(string str):
   frozen(false),  
   taxa_bs(resize_clades(str))
 {
-  static int exists = 0;
-  if (exists) {
-    cerr << "Creating a second taxon set!!!!!\n\n\n";
-  }
-  exists = 1;
   taxa.reserve(taxa_set.size());
 
   for (const string& i : taxa_set) {
