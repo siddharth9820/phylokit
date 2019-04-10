@@ -12,7 +12,7 @@ const TreeClade& TreeClade::child(int i) const {
     return tree.node(children_.at(i));
 }
 bool TreeClade::verify() {
-  Clade child_taxa(ts);
+  Clade child_taxa(ts());
 
     for (int i : children_) {
       if (tree.node(i).parent != index) {
@@ -56,8 +56,8 @@ const vector<int>& TreeClade::children() const {
 
 std::ostream& operator<<(std::ostream& os, const TreeClade& tc) {
   if (tc.size() == 1) {
-    for (Taxon t : tc.taxa)
-      os  << tc.ts[t];
+    for (Taxon t : tc)
+      os  << tc.ts()[t];
     return os;
   }
 

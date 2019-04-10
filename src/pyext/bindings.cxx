@@ -57,7 +57,7 @@ boost::python::list newick_to_tax_indices_(const string& tree, TaxonSet& ts) {
 BOOST_PYTHON_MODULE(libpyphylokit)
 {
 
-  class_<TaxonSet>("TaxonSet", init<int>())
+  class_<TaxonSet, boost::noncopyable>("TaxonSet", init<int>())
     .def("size", &TaxonSet::size)
     .def("__getitem__", &TaxonSet::get, return_value_policy<copy_const_reference>());
   

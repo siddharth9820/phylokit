@@ -4,18 +4,20 @@
 #include "Clade.hpp"
 #include "TaxonSet.hpp"
 #include "util/Logger.hpp"
-#include <vector>
 #include <unordered_set>
+#include <vector>
+#include <functional>
 
+using namespace std;
 class DistanceMatrix {
 private:
-  TaxonSet& ts;
+  const TaxonSet* ts;
   vector<double> d;
   vector<double> mask_;
 
 public:
-  DistanceMatrix(TaxonSet& ts);
-  DistanceMatrix(TaxonSet& ts, string newick);
+  DistanceMatrix(const TaxonSet& ts);
+  DistanceMatrix(const TaxonSet& ts, string newick);
   DistanceMatrix(const DistanceMatrix& other) :
     ts(other.ts),
     d(other.d),
@@ -86,7 +88,7 @@ struct DisjointSet {
   vector<int> rank;
   vector<int> size;
   vector<Clade> clade;
-  DisjointSet(int n, TaxonSet& ts) :
+  DisjointSet(int n, const TaxonSet& ts) :
   parent(n), rank(n, 1), size(n, 1), clade(n, ts) {
     for (int i = 0; i < n; i++) {
       parent[i] = i;
