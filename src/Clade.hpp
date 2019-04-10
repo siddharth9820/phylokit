@@ -93,7 +93,7 @@ ostream& operator<<(ostream& os, const Clade& c);
 template<class c>
 struct TripartitionG {
   c a1, a2, rest;
-  TripartitionG(TaxonSet& ts, c& clade, c& subclade) :
+  TripartitionG(const TaxonSet& ts, c& clade, c& subclade) :
     a1(clade.minus(subclade)),
     a2(subclade),
     rest(clade.complement()){ }
