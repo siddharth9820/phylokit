@@ -30,6 +30,9 @@ public:
   TaxonSet(int size);
   TaxonSet(string str);
 
+  TaxonSet(const TaxonSet&& other);
+  TaxonSet& operator=(const TaxonSet&& other);
+  
 
   BVFIterator begin() const {
     return taxa_bs.begin();

@@ -20,6 +20,25 @@ TaxonSet::TaxonSet(string str):
 
 }
 
+TaxonSet::TaxonSet(const TaxonSet&& other) :
+  taxa_set(other.taxa_set),
+  taxa(other.taxa),
+  index(other.index),
+  frozen(other.frozen),
+  taxa_bs(other.taxa_bs)
+{}
+TaxonSet& TaxonSet::operator=(const TaxonSet&& other) {
+  if (this == &other) {
+    return *this;
+  }
+  taxa_set = other.taxa_set;
+  taxa = other.taxa;
+  index = other.index;
+  frozen = other.frozen;
+  taxa_bs = other.taxa_bs;
+  return *this;
+}
+
 void TaxonSet::freeze() {
   frozen = true;
 }
