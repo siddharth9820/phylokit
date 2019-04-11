@@ -191,7 +191,7 @@ Tree newick_to_treeclades(const string& s, TaxonSet& ts) {
     else if (tok == ":") {
     } else if (tok == ",") {
     } else {
-      if (prevtok == ")" or prevtok == ":" or (tok == " " and prevtok == ",")) {
+      if (prevtok == ")" || prevtok == ":" || (tok == " " && prevtok == ",")) {
 	       continue;
       }
       boost::algorithm::trim(tok);
