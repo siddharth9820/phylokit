@@ -32,8 +32,8 @@ void newick_to_dm_(const string& tree, TaxonSet& ts , object& dists, object& mas
   
   newick_to_dm(tree, ts, dist_mat, mask_mat);
   
-  for (int i = 0; i < ts.size(); i++) {
-    for (int j = 0; j < ts.size(); j++) {
+  for (size_t i = 0; i < ts.size(); i++) {
+    for (size_t j = 0; j < ts.size(); j++) {
       *(double*)PyArray_GETPTR2(dists.ptr(), i, j) = dist_mat[i][j];
       *(double*)PyArray_GETPTR2(masks.ptr(), i, j) = mask_mat[i][j]; 
     }
@@ -57,7 +57,7 @@ boost::python::list newick_to_tax_indices_(const string& tree, TaxonSet& ts) {
 BOOST_PYTHON_MODULE(libpyphylokit)
 {
 
-  class_<TaxonSet>("TaxonSet", init<int>())
+  class_<TaxonSet, boost::noncopyable>("TaxonSet", init<int>())
     .def("size", &TaxonSet::size)
     .def("__getitem__", &TaxonSet::get, return_value_policy<copy_const_reference>());
   

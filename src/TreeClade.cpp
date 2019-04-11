@@ -12,7 +12,7 @@ const TreeClade& TreeClade::child(int i) const {
     return tree.node(children_.at(i));
 }
 bool TreeClade::verify() {
-  Clade child_taxa(ts);
+  Clade child_taxa(ts());
 
     for (int i : children_) {
       if (tree.node(i).parent != index) {
@@ -56,8 +56,8 @@ const vector<int>& TreeClade::children() const {
 
 std::ostream& operator<<(std::ostream& os, const TreeClade& tc) {
   if (tc.size() == 1) {
-    for (Taxon t : tc.taxa)
-      os  << tc.ts[t];
+    for (Taxon t : tc)
+      os  << tc.ts()[t];
     return os;
   }
 
@@ -195,7 +195,7 @@ void Tree::LCA(DistanceMatrix& lca) const {
 
 double Tree::RFDist(const Tree& other, bool normalized) const {
   unordered_set<Clade> my_clades;
-  for (int i = 1; i < clades.size(); i++) {
+  for (size_t i = 1; i < clades.size(); i++) {
     Clade ol = clades.at(i).overlap(other.taxa());
     my_clades.emplace(ol);
 //    cout << "adding " << ol << endl;
@@ -204,7 +204,7 @@ double Tree::RFDist(const Tree& other, bool normalized) const {
   double matching = 0;
   double count    = 0;
 
-  for (int i = 1; i < other.clades.size(); i++) {
+  for (size_t i = 1; i < other.clades.size(); i++) {
     if (other.clades.at(i).overlap_size(taxa()) <= 1) {
       continue;
     }

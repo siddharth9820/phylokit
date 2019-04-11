@@ -9,14 +9,14 @@
 #include <boost/algorithm/string.hpp>
 
 
-DistanceMatrix::DistanceMatrix(TaxonSet& ts) :
-  ts(ts) {
+DistanceMatrix::DistanceMatrix(const TaxonSet& ts) :
+  ts(&ts) {
     d.resize(ts.size() * ts.size(), 0);
     mask_.resize(ts.size() * ts.size(), 0);
 }
 
-DistanceMatrix::DistanceMatrix(TaxonSet& ts, string newick) :
-ts(ts) {
+DistanceMatrix::DistanceMatrix(const TaxonSet& ts, string newick) :
+ts(&ts) {
   d.resize(ts.size() * ts.size(), 0);
   mask_.resize(ts.size() * ts.size(), 0);
 
@@ -70,8 +70,8 @@ ts(ts) {
 
 string DistanceMatrix::str() {
   stringstream ss;
-  for (Taxon t1 : ts) {
-    for (Taxon t2 : ts) {
+  for (Taxon t1 : *ts) {
+    for (Taxon t2 : *ts) {
       ss << get(t1, t2) << ";" << masked(t1, t2) <<  "\t";
     }
     ss << endl;
@@ -101,14 +101,14 @@ unordered_set<Clade> DistanceMatrix::upgma() {
   vector<double> myMask(mask_);
 
   unordered_set<Clade> clades;
-  DisjointSet sets(ts.size(), ts);
+  DisjointSet sets(ts->size(), *ts);
   priority_queue<tuple<double, Taxon, Taxon, int, int>, vector<tuple<double, Taxon, Taxon, int, int>>, greater<tuple<double, Taxon, Taxon, int, int>>> pq;
 
-  for (Taxon t1 : ts.taxa_bs) {
-    Clade c(ts);
+  for (Taxon t1 : ts->taxa_bs) {
+    Clade c(*ts);
     c.add(t1);
     clades.insert(c);
-    for (Taxon t2 : ts.taxa_bs) {
+    for (Taxon t2 : ts->taxa_bs) {
       if (t1 < t2 && !isMasked(t1, t2))
         pq.push(make_tuple(get(t1, t2), t1, t2, 1, 1));
     }
@@ -131,7 +131,7 @@ unordered_set<Clade> DistanceMatrix::upgma() {
 
     clades.insert(sets.clade[sets.find(t1)]);
 
-    for (Taxon t : ts) {
+    for (Taxon t : *ts) {
       if (sets.find(t) == t && !masked(t, sets.find(t1)) ) {
 
         get(sets.find(t1), t, myD) = (get(t1, t, myMask) * get(t1, t, myD) + get(t2, t, myMask) * get(t2, t, myD))/((get(t1, t, myMask) + get(t2, t, myMask)));

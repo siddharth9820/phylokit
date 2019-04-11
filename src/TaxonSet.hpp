@@ -22,12 +22,17 @@ private:
   vector<string> taxa;
   map<string, Taxon> index;
   bool frozen;
+  TaxonSet(const TaxonSet& other);
+  TaxonSet& operator=(const TaxonSet& other);
 public:
   clade_bitset taxa_bs;
 
   TaxonSet(int size);
   TaxonSet(string str);
 
+  TaxonSet(const TaxonSet&& other);
+  TaxonSet& operator=(const TaxonSet&& other);
+  
 
   BVFIterator begin() const {
     return taxa_bs.begin();
@@ -56,6 +61,10 @@ public:
 
   const string& get(const Taxon i) const  {
     return taxa.at(i);
+  }
+
+  bool has(const string& str) const {
+    return index.count(str) > 0;
   }
 
   size_t size() const;

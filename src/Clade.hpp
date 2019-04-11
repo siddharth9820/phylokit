@@ -16,17 +16,18 @@ class Clade {
 private:
 
 
-public:
   clade_bitset taxa;
-  TaxonSet& ts;
+  const TaxonSet* ts_;
 
   int sz;
 
+public:
+  
   Clade(TaxonSet& ts, string& str);
-  Clade(TaxonSet& ts, Taxon t);
-  Clade(TaxonSet& ts, const clade_bitset& taxa);
-  Clade(TaxonSet& ts, const unordered_set<Taxon>& taxa);
-  Clade(TaxonSet& ts);
+  Clade(const TaxonSet& ts, Taxon t);
+  Clade(const TaxonSet& ts, const clade_bitset& taxa);
+  Clade(const TaxonSet& ts, const unordered_set<Taxon>& taxa);
+  Clade(const TaxonSet& ts);
   Clade(const Clade& other);
 
   Clade& operator=(const Clade& other);
@@ -69,6 +70,7 @@ public:
   Clade operator+(const Taxon other) const;
 
 
+  const TaxonSet& ts() const {return *ts_;}
   int size() const;
   const clade_bitset& get_taxa() const {return taxa;}
 
@@ -91,7 +93,7 @@ ostream& operator<<(ostream& os, const Clade& c);
 template<class c>
 struct TripartitionG {
   c a1, a2, rest;
-  TripartitionG(TaxonSet& ts, c& clade, c& subclade) :
+  TripartitionG(const TaxonSet& ts, c& clade, c& subclade) :
     a1(clade.minus(subclade)),
     a2(subclade),
     rest(clade.complement()){ }
@@ -112,7 +114,7 @@ struct Bipartition {
     a1(clade1),
     a2(clade2)
   {}
-  size_t hash() const { return a1.taxa.hash() ^ a2.taxa.hash(); }
+  size_t hash() const { return a1.hash() ^ a2.hash(); }
   bool operator==(const Bipartition& other) const {
     return ((a1 == other.a1) && (a2 == other.a2)) || ((a2 == other.a1) && (a1 == other.a2));
   }

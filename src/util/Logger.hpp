@@ -41,11 +41,25 @@ private:
 };
 
 #define LOG(tag) (Logger::isEnabled(tag)) && (Logger::log((tag), (__BASE_FILE__), (__LINE__)))
-#define DEBUG LOG("DEBUG")
-#define ERR LOG("ERROR")
-#define WARN LOG("WARNING")
-#define INFO LOG("INFO")
-#define PROGRESS LOG("PROGRESS")
 
+#ifndef DEBUG
+#define DEBUG LOG("DEBUG")
+#endif
+
+#ifndef ERR
+#define ERR LOG("ERROR")
+#endif
+
+#ifndef WARN
+#define WARN LOG("WARNING")
+#endif
+
+#ifndef INFO
+#define INFO LOG("INFO")
+#endif
+
+#ifndef PROGRESS
+#define PROGRESS LOG("PROGRESS")
+#endif
 
 #endif
