@@ -227,8 +227,8 @@ void BitVectorFixed::do_swap(BitVectorFixed& other) {
 }
 
 
-    template<>
-    static void std::swap<BitVectorFixed>(BitVectorFixed& lhs, BitVectorFixed& rhs)
-    {
-      lhs.do_swap(rhs);
-    }
+template<>
+void std::swap<BitVectorFixed>(BitVectorFixed& lhs, BitVectorFixed& rhs)
+{
+  lhs.do_swap(rhs);
+}

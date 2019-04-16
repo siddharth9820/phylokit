@@ -8,24 +8,27 @@
 #include <algorithm>
 #include <cstring>
 #include <cmath>
-#define strtok_r strtok_s
+
+
+#include <boost/tokenizer.hpp>
+#include <boost/algorithm/string.hpp>
+
 
 Clade::Clade(TaxonSet& ts_, string& str) :
   taxa(ts_.size()),
   ts_(&ts_),
   sz(0)
 {
-  char* cladestr = &(str[1]);
-  char* token;
 
-  char* saveptr;
+  typedef boost::tokenizer<boost::char_separator<char> >
+    tokenizer;
+  boost::char_separator<char> sep("{,}");
+  tokenizer tokens(str, sep);
 
-  while ((token = strtok_r(cladestr, ",} ", &saveptr))) {
-
-  
-    cladestr = NULL;
-    add(ts_[string(&(token[0]))]);
+  for (auto& token : tokens) {
+    add(ts_[token]);
   }
+  
 }
 
 Clade::Clade(const TaxonSet& ts_) :
@@ -257,9 +260,9 @@ string Bipartition::str() const {
 }
 
 
-    template<>
-    static void std::swap<Clade>(Clade& lhs, Clade& rhs)
-    {
-      lhs.do_swap(rhs);
-    }
+template<>
+void std::swap<Clade>(Clade& lhs, Clade& rhs)
+{
+  lhs.do_swap(rhs);
+}
 

@@ -3,6 +3,9 @@
 #include <cstring>
 #include <cassert>
 
+#include <boost/tokenizer.hpp>
+#include <boost/algorithm/string.hpp>
+
 #define strtok_r strtok_s
 TaxonSet::TaxonSet(int size):
   frozen(false),
@@ -58,16 +61,16 @@ int TaxonSet::resize_clades(string str) {
 }
 
 void TaxonSet::add_clade_taxa(string str, unordered_set<string>& taxa_set) {
-  char* cladestr = &(str[1]);
 
-  char* token;
-
-  char* saveptr;
-
-  while((token = strtok_r(cladestr, ",} ", &saveptr))) {
-    cladestr = NULL;
-    taxa_set.insert(string(&(token[0])));
+  typedef boost::tokenizer<boost::char_separator<char> >
+    tokenizer;
+  boost::char_separator<char> sep("{,}");
+  tokenizer tokens(str, sep);
+  
+  for (auto& token : tokens) {
+    taxa_set.insert(token);
   }
+
 }
 
 Taxon TaxonSet::add(const string& str) {

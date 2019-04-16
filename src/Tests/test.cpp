@@ -34,7 +34,13 @@ TEST_CASE("Clade", "[clade]") {
   REQUIRE(c3.contains(1));
   REQUIRE(c3.contains(2));
 
-
+  string s4 = "{3,2,4}";
+  Clade c4(ts, s4);
+  REQUIRE( ! c4.contains(0));
+  REQUIRE( ! c4.contains(1));
+  REQUIRE( c4.contains(2));
+  REQUIRE( c4.contains(3));
+  REQUIRE( c4.contains(4));
 }
 
 
