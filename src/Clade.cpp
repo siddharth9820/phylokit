@@ -1,5 +1,4 @@
 #include "Clade.hpp"
-#include "util/Options.hpp"
 #include "util/Logger.hpp"
 #include <sstream>
 #include <unordered_set>

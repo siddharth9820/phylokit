@@ -1,5 +1,4 @@
 #include "Options.hpp"
-#include "Logger.hpp"
 #include <cassert>
 #include <iostream>
 #include <iterator>

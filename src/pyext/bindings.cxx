@@ -1,5 +1,4 @@
 #include <boost/python.hpp>
-#include <boost/python/numeric.hpp>
 #include "../newick.hpp"
 #include "../TaxonSet.hpp"
 #include <numpy/arrayobject.h>
