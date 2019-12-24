@@ -13,6 +13,7 @@ cc_binary(
         "//src/util:Timer",
     ],
     linkshared = 1,
+    linkstatic = 1,
 )
 
 cc_library(
