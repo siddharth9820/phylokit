@@ -1,7 +1,7 @@
 dist: trusty
 sudo: required
 osx_image: xcode8
-language: java
+language: c++
 
 os:
   - linux
@@ -30,6 +30,3 @@ before_install:
 script:
   - bazel --bazelrc=tools/bazel.travis.rc build -k //...
   - bazel --bazelrc=tools/bazel.travis.rc test -k //...
-  - format/run --verify
-  - sync-deps/run --verify
-  - ./integration-test
