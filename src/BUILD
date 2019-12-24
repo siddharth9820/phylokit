@@ -29,6 +29,8 @@ cc_library(
     deps = [
         ":TaxonSet",
         "//src/util:Logger",
+        "@boost//:algorithm",
+        "@boost//:tokenizer",
     ],
 )
 
@@ -36,7 +38,11 @@ cc_library(
     name = "TaxonSet",
     srcs = ["TaxonSet.cpp"],
     hdrs = ["TaxonSet.hpp"],
-    deps = [":BitVector"],
+    deps = [
+        ":BitVector",
+        "@boost//:algorithm",
+        "@boost//:tokenizer",
+    ],
 )
 
 cc_library(
@@ -47,6 +53,10 @@ cc_library(
         ":Clade",
         ":TaxonSet",
         "//src/util:Logger",
+        "@boost//:",
+        "@boost//:algorithm",
+        "@boost//:multi_array",
+        "@boost//:tokenizer",
     ],
 )
 
@@ -58,6 +68,9 @@ cc_library(
         ":Clade",
         ":TaxonSet",
         ":TreeClade",
+        "@boost//:algorithm",
+        "@boost//:multi_array",
+        "@boost//:tokenizer",
     ],
 )
 
@@ -69,6 +82,7 @@ cc_library(
         ":TaxonSet",
         "//src/util:Logger",
         "//src/util:Options",
+        "@boost//:multi_array",
     ],
 )
 
