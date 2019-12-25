@@ -1,5 +1,5 @@
 #include "catch2.hpp"
-#include "BitVector.hpp"
+#include "../src/BitVector.hpp"
 
 TEST_CASE("BitVector created with size has all bits zero") {
   size_t sz = 5000;
@@ -62,5 +62,3 @@ TEST_CASE("BitVector popcount") {
     REQUIRE(bvf.popcount() == i + 1);
   }
 }
-
-TEST_CASE("BitVector ")
