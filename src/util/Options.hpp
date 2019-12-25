@@ -3,29 +3,28 @@
 #include <string>
 #include <vector>
 #include <map>
-using namespace std;
 
 class Options {
 public:
   static int help;
 
-  static int get(string opts, string* arg);
-  static int get(string opts) {
+  static int get(std::string opts, std::string* arg);
+  static int get(std::string opts) {
     return get(opts, 0);
   }
   
 
   static void init(int argc, const char** argv);
 
-  static string str();
+  static std::string str();
   
   static bool inited;
 
-  static vector<string> argv;
+  static std::vector<std::string> argv;
 private:
   
-  static string input;
-  static map<string, string> opts_map;
+  static std::string input;
+  static std::map<std::string, std::string> opts_map;
   
 };
 

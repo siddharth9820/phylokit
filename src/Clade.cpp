@@ -1,9 +1,7 @@
 #include "Clade.hpp"
-#include "util/Logger.hpp"
 #include <sstream>
 #include <unordered_set>
 #include <unordered_map>
-#include <iostream>
 #include <algorithm>
 #include <cstring>
 #include <cmath>
@@ -52,7 +50,7 @@ Clade::Clade(const TaxonSet& ts_, const clade_bitset& taxa) :
 {
 }
 
-Clade::Clade(const TaxonSet& ts_, const unordered_set<Taxon>& taxa) :
+Clade::Clade(const TaxonSet& ts_, const std::unordered_set<Taxon>& taxa) :
   taxa(ts_.size()),
   ts_(&ts_),
   sz(taxa.size())
@@ -97,22 +95,13 @@ std::string Clade::str() const {
   std::sort(strings.begin(), strings.end());
 
   ss << '{';
-  for (string s : strings) {
+  for (std::string s : strings) {
     ss << s << ", ";
   }
   ss << '}';
   return ss.str();
 }
 
-
-
-
-void Clade::test() {
-  std::string str = std::string("{tx1, tx8, tx3, tx2, tx4}");
-  TaxonSet ts(str);
-  cout << Clade(ts, str).str() << endl;
-  cout << ts.str() << endl;
-}
 
 Clade Clade::overlap(const Clade& other) const {
   clade_bitset cb = other.taxa & taxa;
@@ -238,7 +227,7 @@ Clade& Clade::operator+=(const Taxon other){
 }
 
 
-ostream& operator<<(ostream& os, const Clade& c) {
+std::ostream& operator<<(std::ostream& os, const Clade& c) {
   os << c.str();
   return os;
 }

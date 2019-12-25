@@ -81,10 +81,10 @@ cc_library(
     hdrs = ["Quartet.hpp"],
     deps = [
         ":TaxonSet",
-        "//src/util:Logger",
         "//src/util:Options",
         "@boost//:call_traits",
         "@boost//:multi_array",
+        "@com_github_google_glog//:glog",
     ],
 )
 

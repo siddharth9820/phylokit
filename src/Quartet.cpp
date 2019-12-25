@@ -5,7 +5,7 @@
 #include <iostream>
 #include "Quartet.hpp"
 #include "util/Options.hpp"
-#include "util/Logger.hpp"
+#include <glog/logging.h>
 
 #ifdef _WIN32
 #define strtok_r strtok_s
@@ -65,19 +65,19 @@ void Quartet::parse_wqmc(char* c) {
   }
 }
 
-string Quartet::str() {
-  stringstream ss;
+std::string Quartet::str() {
+  std::stringstream ss;
   ss << "((" << ts[taxa[0]] << ", " << ts[taxa[1]] << "),(" << ts[taxa[2]] << ", " << ts[taxa[3]] << "))";
   return ss.str();
 }
 
 
-QuartetDict::QuartetDict(TaxonSet& ts, string quartetfile) :
+QuartetDict::QuartetDict(TaxonSet& ts, std::string quartetfile) :
   ts(ts)
 {
 
   array_type::extent_gen extents;
-  DEBUG << "Making quartet dict with size " << ts.size() << endl;
+  DLOG(INFO) << "Making quartet dict with size " << ts.size() << std::endl;
   array.resize(extents[ts.size()][ts.size()][ts.size()][ts.size()]);
   size_t i,j,k,l;
 
@@ -94,13 +94,13 @@ QuartetDict::QuartetDict(TaxonSet& ts, string quartetfile) :
   }
 };
 
-void QuartetDict::read_file(string quartetfile) {
-  
-  string s;
+void QuartetDict::read_file(std::string quartetfile) {
+
+  std::string s;
   double w;
   
   Quartet q(ts);
-  ifstream infile(quartetfile);
+  std::ifstream infile(quartetfile);
   
   while(!infile.eof()) {
     getline(infile, s);
@@ -136,8 +136,8 @@ double QuartetDict::operator()(Quartet& q) {
   return array[q.a()][q.b()][q.c()][q.d()];
 }
 
-string QuartetDict::str() {
-  stringstream ss;
+std::string QuartetDict::str() {
+  std::stringstream ss;
   size_t i,j,k,l;
   for (i = 0; i < ts.size(); i++) {
      for (j = 0; j < i; j++) {
@@ -146,9 +146,9 @@ string QuartetDict::str() {
 	   Quartet q1(ts,i,j,k,l);
 	   Quartet q2(ts,i,k,l,j);
 	   Quartet q3(ts,l,i,j,k);
-	   ss << q1.str() << ":" << (*this)(q1) << endl;
-	   ss << q2.str() << ":" << (*this)(q2) << endl;
-	   ss << q3.str() << ":" << (*this)(q3) << endl;
+	   ss << q1.str() << ":" << (*this)(q1) << std::endl;
+	   ss << q2.str() << ":" << (*this)(q2) << std::endl;
+	   ss << q3.str() << ":" << (*this)(q3) << std::endl;
 	 }
        }
      } 
@@ -156,36 +156,16 @@ string QuartetDict::str() {
   return ss.str() ;
 }
 
-void QuartetDict::test() {
-  cout << "QuartetDict::test()" << endl;
-  TaxonSet ts("{1,2,3,4}");
-  QuartetDict qd(ts, "quartetdict_test");
-  cout << qd.str();
-}
-
-
-void Quartet::test() {
-  // //  TaxonSet ts;
-  // Quartet q(ts);
-  // string c("((1,2),(3,4)):3.5");
-  // q.parse(&c[0]);
-  // cout << q.str() << endl;
-  // assert(q.taxa[0] == ts["1"]);
-  // assert(q.taxa[1] == ts["2"]);
-  // assert(q.taxa[2] == ts["3"]);
-  // assert(q.taxa[3] == ts["4"]);
-}
-
 QuartetDict* QuartetDict::cl_qd = 0;
 
 QuartetDict* QuartetDict::cl(TaxonSet& ts) {
   if (cl_qd) {
-    DEBUG << "Returning existing quartet dict" << endl;
+    DLOG(INFO) << "Returning existing quartet dict" << std::endl;
     return cl_qd;
   }
-  string quartetFile;
+  std::string quartetFile;
   Options::get("q quartets", &quartetFile);
-  DEBUG << "Making quartet dict from " << quartetFile << endl;
+  DLOG(INFO) << "Making quartet dict from " << quartetFile << std::endl;
   cl_qd = new QuartetDict(ts, quartetFile);
   return cl_qd;
 }
