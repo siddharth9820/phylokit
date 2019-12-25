@@ -259,9 +259,4 @@ std::string Bipartition::str() const {
 }
 
 
-template<>
-void std::swap<Clade>(Clade& lhs, Clade& rhs)
-{
-  lhs.do_swap(rhs);
-}
 

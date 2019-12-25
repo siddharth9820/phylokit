@@ -45,6 +45,11 @@ public:
   BitVectorFixed& operator ^=(const BitVectorFixed& other);	  
   BitVectorFixed operator~() const;
 
+  friend void swap(BitVectorFixed& lhs, BitVectorFixed& rhs)
+  {
+    lhs.do_swap(rhs);
+  }
+
 };
 
 

@@ -85,6 +85,11 @@ public:
 
   void do_swap(Clade& other);
   size_t hash() const { return taxa.hash(); }
+
+  friend void swap(Clade& lhs, Clade& rhs)
+  {
+    lhs.do_swap(rhs);
+  }
 };
 
 std::ostream& operator<<(std::ostream& os, const Clade& c);

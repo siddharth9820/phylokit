@@ -227,8 +227,3 @@ void BitVectorFixed::do_swap(BitVectorFixed& other) {
 }
 
 
-template<>
-void std::swap<BitVectorFixed>(BitVectorFixed& lhs, BitVectorFixed& rhs)
-{
-  lhs.do_swap(rhs);
-}
