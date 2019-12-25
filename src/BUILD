@@ -54,6 +54,7 @@ cc_library(
         ":TaxonSet",
         "//src/util:Logger",
         "@boost//:algorithm",
+        "@boost//:call_traits",
         "@boost//:multi_array",
         "@boost//:tokenizer",
     ],
@@ -68,6 +69,7 @@ cc_library(
         ":TaxonSet",
         ":TreeClade",
         "@boost//:algorithm",
+        "@boost//:call_traits",
         "@boost//:multi_array",
         "@boost//:tokenizer",
     ],
@@ -81,6 +83,7 @@ cc_library(
         ":TaxonSet",
         "//src/util:Logger",
         "//src/util:Options",
+        "@boost//:call_traits",
         "@boost//:multi_array",
     ],
 )
