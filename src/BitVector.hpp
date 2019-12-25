@@ -10,11 +10,10 @@ typedef uint64_t elem_type;
 class BVFIterator;
 
 class BitVectorFixed {
+
 public:
   size_t size;
-  size_t cap;
-  elem_type *data;
-  //  BitVectorFixed();
+
   BitVectorFixed(size_t size);
   BitVectorFixed(const BitVectorFixed& other);
   ~BitVectorFixed();
@@ -49,6 +48,10 @@ public:
   {
     lhs.do_swap(rhs);
   }
+
+private:
+  elem_type *data;
+  size_t cap;
 
 };
 

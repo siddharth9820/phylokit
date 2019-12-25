@@ -114,15 +114,7 @@ int Clade::overlap_size(const Clade& other) const {
 
 
 bool Clade::contains(const Clade& other) const {
-  if (other.size() > size())
-    return false;
-
-  bool status = 1;
-  for (size_t i = 0; i < taxa.cap; i++) {
-    status &= ((other.taxa.data[i] & taxa.data[i]) == other.taxa.data[i]);
-  }
-
-  return status;
+  return (other.taxa & taxa) == other.taxa;
 }
 
 
