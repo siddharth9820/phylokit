@@ -7,7 +7,6 @@
 #include "util/Options.hpp"
 #include "util/Logger.hpp"
 
-using namespace std;
 #ifdef _WIN32
 #define strtok_r strtok_s
 #endif

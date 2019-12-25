@@ -10,7 +10,6 @@
 #include <algorithm>
 
 #include "BitVector.hpp"
-using namespace std;
 
 typedef int Taxon;
 typedef BitVectorFixed clade_bitset;
@@ -18,9 +17,9 @@ class Clade;
 
 class TaxonSet {
 private:
-  unordered_set<string> taxa_set;
-  vector<string> taxa;
-  map<string, Taxon> index;
+  std::unordered_set<std::string> taxa_set;
+  std::vector<std::string> taxa;
+  std::map<std::string, Taxon> index;
   bool frozen;
   TaxonSet(const TaxonSet& other);
   TaxonSet& operator=(const TaxonSet& other);
@@ -28,7 +27,7 @@ public:
   clade_bitset taxa_bs;
 
   TaxonSet(int size);
-  TaxonSet(string str);
+  TaxonSet(std::string str);
 
   TaxonSet(const TaxonSet&& other);
   TaxonSet& operator=(const TaxonSet&& other);
@@ -42,42 +41,42 @@ public:
     return taxa_bs.end();
   }
 
-  int resize_clades(string str);
+  int resize_clades(std::string str);
 
-  void add_clade_taxa(string str, unordered_set<string>& taxa_set);
+  void add_clade_taxa(std::string str, std::unordered_set<std::string>& taxa_set);
 
   void freeze();
 
-  Taxon operator[](const string& str) {
+  Taxon operator[](const std::string& str) {
     return add(str);
   }
 
-  Taxon operator[](const string& str) const {
+  Taxon operator[](const std::string& str) const {
     return index.at(str);
   }
-  const string& operator[](const Taxon i) const {
+  const std::string& operator[](const Taxon i) const {
     return taxa.at(i);
   }
 
-  const string& get(const Taxon i) const  {
+  const std::string& get(const Taxon i) const  {
     return taxa.at(i);
   }
 
-  bool has(const string& str) const {
+  bool has(const std::string& str) const {
     return index.count(str) > 0;
   }
 
   size_t size() const;
-  Taxon add(const string& str);
-  string str() const {
-    stringstream ss;
+  Taxon add(const std::string& str);
+  std::string str() const {
+      std::stringstream ss;
     for (size_t i = 0; i < taxa.size(); i++) {
-      ss << i << "\t" << taxa[i] << endl;
+      ss << i << "\t" << taxa[i] << std::endl;
     }
     return ss.str();
   }
-  vector<string>& sort_taxa() {
-    sort(taxa.begin(), taxa.end());
+  std::vector<std::string>& sort_taxa() {
+    std::sort(taxa.begin(), taxa.end());
     return taxa;
   }
 };

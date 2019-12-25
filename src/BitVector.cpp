@@ -204,10 +204,10 @@ BitVectorFixed& BitVectorFixed::operator^=(const BitVectorFixed& other) {
   return *this;
 }
 
-string BitVectorFixed::str() const {
-  stringstream ss;
+std::string BitVectorFixed::str() const {
+  std::stringstream ss;
   for (int i = cap - 1; i >= 0; i--) {
-    ss << bitset<sizeof(data[i])*8>(data[i]);
+    ss << std::bitset<sizeof(data[i])*8>(data[i]);
   }
   return ss.str();
 }

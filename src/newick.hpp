@@ -13,8 +13,6 @@
 #include "TreeClade.hpp"
 #include "TaxonSet.hpp"
 
-using namespace std;
-
 typedef boost::multi_array<double, 2> dm_type;
 
 int newick_to_ts(const string& s, unordered_set<string>& taxa);

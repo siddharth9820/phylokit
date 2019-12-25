@@ -8,7 +8,6 @@
 #include <vector>
 #include <functional>
 
-using namespace std;
 class DistanceMatrix {
 private:
   const TaxonSet* ts;

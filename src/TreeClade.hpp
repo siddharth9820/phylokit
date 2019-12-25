@@ -9,15 +9,15 @@ class Tree;
 class TreeClade : public Clade {
 private:
 public:
-  vector<int> children_;
+  std::vector<int> children_;
   int parent;
   int index;
   Tree& tree;
   using Clade::Clade;
   TreeClade(TaxonSet& ts, Tree& tree, int index) : Clade(ts), index(index), tree(tree) {}
   void addChild(int index);
-  vector<int>& children();
-  const vector<int>& children() const;
+  std::vector<int>& children();
+  const std::vector<int>& children() const;
   int nchildren() const {
     return children_.size();
   }
@@ -32,9 +32,9 @@ public:
 class Tree {
 private:
 public:
-    unordered_map<int, TreeClade> clades;
-    int next_entry;
-    TaxonSet& ts;
+  std::unordered_map<int, TreeClade> clades;
+  int next_entry;
+  TaxonSet& ts;
 
   Tree (TaxonSet& ts) :
   next_entry(0),

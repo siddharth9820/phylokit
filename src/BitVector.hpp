@@ -1,13 +1,9 @@
 #ifndef BITVECTOR_HPP__
 #define BITVECTOR_HPP__
 
-#include <vector>
 #include <inttypes.h>
 #include <cstdlib>
-
 #include <string>
-
-using namespace std;
 
 typedef uint64_t elem_type;
 
@@ -33,7 +29,7 @@ public:
   size_t hash() const;
   int overlap_size(const BitVectorFixed& other) const;
 
-  string str() const;
+  std::string str() const;
 
   BVFIterator begin() const;
   BVFIterator end() const;

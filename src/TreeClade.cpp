@@ -45,12 +45,12 @@ void TreeClade::addChild(int i) {
   tree.node(i).parent = index;
 }
 
-vector<int>& TreeClade::children() {
+std::vector<int>& TreeClade::children() {
   return children_;
 }
 
 
-const vector<int>& TreeClade::children() const {
+const std::vector<int>& TreeClade::children() const {
   return children_;
 }
 
@@ -171,7 +171,7 @@ Tree& Tree::reroot(Taxon x) {
 void Tree::LCA(DistanceMatrix& lca) const {
 
 
-  vector<int> stack;
+  std::vector<int> stack;
   stack.push_back(0);
 
   while (stack.size()) {
@@ -194,7 +194,7 @@ void Tree::LCA(DistanceMatrix& lca) const {
 }
 
 double Tree::RFDist(const Tree& other, bool normalized) const {
-  unordered_set<Clade> my_clades;
+  std::unordered_set<Clade> my_clades;
   for (size_t i = 1; i < clades.size(); i++) {
     Clade ol = clades.at(i).overlap(other.taxa());
     my_clades.emplace(ol);

@@ -12,13 +12,13 @@ TaxonSet::TaxonSet(int size):
   taxa_bs(size) {
 }
 
-TaxonSet::TaxonSet(string str):
+TaxonSet::TaxonSet(std::string str):
   frozen(false),
   taxa_bs(resize_clades(str))
 {
   taxa.reserve(taxa_set.size());
 
-  for (const string& i : taxa_set) {
+  for (const std::string& i : taxa_set) {
     add(i);
   }
 
@@ -47,12 +47,12 @@ void TaxonSet::freeze() {
   frozen = true;
 }
 
-int TaxonSet::resize_clades(string str) {
-  stringstream stream(str);
-  string s;
+int TaxonSet::resize_clades(std::string str) {
+  std::stringstream stream(str);
+  std::string s;
 
   while(!stream.eof()) {
-    getline(stream, s);
+    std::getline(stream, s);
     if (s.size() == 0)
       continue;
     add_clade_taxa(s, taxa_set);
@@ -60,7 +60,7 @@ int TaxonSet::resize_clades(string str) {
   return taxa_set.size();
 }
 
-void TaxonSet::add_clade_taxa(string str, unordered_set<string>& taxa_set) {
+void TaxonSet::add_clade_taxa(std::string str, std::unordered_set<std::string>& taxa_set) {
 
   typedef boost::tokenizer<boost::char_separator<char> >
     tokenizer;
@@ -73,15 +73,15 @@ void TaxonSet::add_clade_taxa(string str, unordered_set<string>& taxa_set) {
 
 }
 
-Taxon TaxonSet::add(const string& str) {
+Taxon TaxonSet::add(const std::string& str) {
   if (index.count(str)) {
     return index[str];
   }
 
   if (frozen) {
-    cerr << "Trying to add " << str << " to frozen taxon set\n";
-    for (const string& i : taxa_set) {
-      cerr << (i) << endl;
+    std::cerr << "Trying to add " << str << " to frozen taxon set\n";
+    for (const std::string& i : taxa_set) {
+      std::cerr << (i) << std::endl;
     }
     assert(false);
   }

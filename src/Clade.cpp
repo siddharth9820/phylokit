@@ -13,7 +13,7 @@
 #include <boost/algorithm/string.hpp>
 
 
-Clade::Clade(TaxonSet& ts_, string& str) :
+Clade::Clade(TaxonSet& ts_, std::string& str) :
   taxa(ts_.size()),
   ts_(&ts_),
   sz(0)
@@ -86,15 +86,15 @@ bool Clade::operator==(const Clade& other) const {
 
 
 
-string Clade::str() const {
-  stringstream ss;
-  vector<string> strings;
+std::string Clade::str() const {
+  std::stringstream ss;
+  std::vector<std::string> strings;
 
   for (Taxon i : *this) {
     strings.push_back(ts()[i]);
   }
 
-  sort(strings.begin(), strings.end());
+  std::sort(strings.begin(), strings.end());
 
   ss << '{';
   for (string s : strings) {
@@ -108,7 +108,7 @@ string Clade::str() const {
 
 
 void Clade::test() {
-  string str = string("{tx1, tx8, tx3, tx2, tx4}");
+  std::string str = std::string("{tx1, tx8, tx3, tx2, tx4}");
   TaxonSet ts(str);
   cout << Clade(ts, str).str() << endl;
   cout << ts.str() << endl;
@@ -254,7 +254,7 @@ void Clade::do_swap(Clade& other) {
 
 
 
-string Bipartition::str() const {
+std::string Bipartition::str() const {
   return "{" + a1.str() + " " + a2.str() + "}";
 }
 

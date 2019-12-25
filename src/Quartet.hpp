@@ -12,7 +12,7 @@ public:
   void parse_newick(char* str);
   void parse_wqmc(char* str);
 
-  string str();
+  std::string str();
   static void test();
   int a() { return taxa[0]; }
   int b() { return taxa[1]; }
@@ -25,16 +25,16 @@ private:
 
 class QuartetDict {
 public:
-  QuartetDict(TaxonSet& ts, string quartetfile);
+  QuartetDict(TaxonSet& ts, std::string quartetfile);
 
-  void read_file(string quartetfile);
+  void read_file(std::string quartetfile);
   
   static QuartetDict* cl(TaxonSet& ts);
   double operator()(Taxon a, Taxon b, Taxon c, Taxon d);
   double operator()(Quartet& q);
   void set(Taxon a, Taxon b, Taxon c, Taxon d, double value);
   void increment(Taxon a, Taxon b, Taxon c, Taxon d);
-  string str();
+  std::string str();
   static void test();
 private:
   typedef boost::multi_array<double, 4> array_type;

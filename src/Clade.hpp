@@ -2,7 +2,6 @@
 #define CLADE_HPP__
 
 #include <string>
-#include <vector>
 #include <iostream>
 #include <bitset>
 #include <unordered_set>
@@ -23,10 +22,10 @@ private:
 
 public:
   
-  Clade(TaxonSet& ts, string& str);
+  Clade(TaxonSet& ts, std::string& str);
   Clade(const TaxonSet& ts, Taxon t);
   Clade(const TaxonSet& ts, const clade_bitset& taxa);
-  Clade(const TaxonSet& ts, const unordered_set<Taxon>& taxa);
+  Clade(const TaxonSet& ts, const std::unordered_set<Taxon>& taxa);
   Clade(const TaxonSet& ts);
   Clade(const Clade& other);
 
@@ -34,7 +33,7 @@ public:
   bool operator==(const Clade& other) const;
 
 
-  string str() const;
+  std::string str() const;
 
 
   bool contains(const Clade& other) const;
@@ -88,7 +87,7 @@ public:
   size_t hash() const { return taxa.hash(); }
 };
 
-ostream& operator<<(ostream& os, const Clade& c);
+std::ostream& operator<<(std::ostream& os, const Clade& c);
 
 template<class c>
 struct TripartitionG {
@@ -98,7 +97,7 @@ struct TripartitionG {
     a2(subclade),
     rest(clade.complement()){ }
 
-  string str() const  {
+  std::string str() const  {
     assert(a1.overlap(rest).size() == 0);
     assert(a2.overlap(rest).size() == 0);
     assert(a2.overlap(a1).size() == 0);
@@ -118,7 +117,7 @@ struct Bipartition {
   bool operator==(const Bipartition& other) const {
     return ((a1 == other.a1) && (a2 == other.a2)) || ((a2 == other.a1) && (a1 == other.a2));
   }
-  string str() const;
+  std::string str() const;
 };
 
 
