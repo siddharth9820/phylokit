@@ -53,7 +53,6 @@ cc_library(
         ":Clade",
         ":TaxonSet",
         "//src/util:Logger",
-        "@boost//:",
         "@boost//:algorithm",
         "@boost//:multi_array",
         "@boost//:tokenizer",
