@@ -1,5 +1,5 @@
 #include "catch2.hpp"
-#include "../src/BitVector.hpp"
+#include "phylokit/BitVector.hpp"
 
 TEST_CASE("BitVector created with size has all bits zero") {
   size_t sz = 5000;

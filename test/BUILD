@@ -2,7 +2,7 @@ cc_test(
     name = "BitVectorTest",
     srcs = ["BitVectorTest.cpp"],
     deps = [
-        "//src:BitVector",
+        "//phylokit:BitVector",
         "@catch2//:main",
     ],
 )
