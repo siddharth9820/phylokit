@@ -1,8 +1,8 @@
 #include "DistanceMatrix.hpp"
 #include <queue>
-#include "util/Logger.hpp"
 #include <sstream>
-
+#include <glog/logging.h>
+#include <vector>
 
 #include <boost/tokenizer.hpp>
 #include <boost/multi_array.hpp>
@@ -15,7 +15,7 @@ DistanceMatrix::DistanceMatrix(const TaxonSet& ts) :
     mask_.resize(ts.size() * ts.size(), 0);
 }
 
-DistanceMatrix::DistanceMatrix(const TaxonSet& ts, string newick) :
+DistanceMatrix::DistanceMatrix(const TaxonSet& ts, std::string newick) :
 ts(&ts) {
   d.resize(ts.size() * ts.size(), 0);
   mask_.resize(ts.size() * ts.size(), 0);
@@ -25,11 +25,11 @@ ts(&ts) {
 
   tokenizer tokens(newick, sep);
 
-  vector<double> dists(ts.size(), 0);
-  vector<double> ops(ts.size(), 0);
+  std::vector<double> dists(ts.size(), 0);
+  std::vector<double> ops(ts.size(), 0);
 
-  vector<Taxon> seen;
-  string prevtok = "";
+  std::vector<Taxon> seen;
+  std::string prevtok = "";
 
   for (auto tok : tokens) {
 
@@ -68,41 +68,41 @@ ts(&ts) {
 }
 
 
-string DistanceMatrix::str() {
-  stringstream ss;
+std::string DistanceMatrix::str() {
+  std::stringstream ss;
   for (Taxon t1 : *ts) {
     for (Taxon t2 : *ts) {
       ss << get(t1, t2) << ";" << masked(t1, t2) <<  "\t";
     }
-    ss << endl;
+    ss << std::endl;
   }
   return ss.str();
 }
 
-double& DistanceMatrix::get(Taxon t1, Taxon t2, vector<double>& myD) {
-  Taxon a = min(t1, t2);
-  Taxon b = max(t1, t2);
+double& DistanceMatrix::get(Taxon t1, Taxon t2, std::vector<double>& myD) {
+  Taxon a = std::min(t1, t2);
+  Taxon b = std::max(t1, t2);
 
   return myD[(b * (b+1))/2 + a];
 };
 
 
-double DistanceMatrix::get(Taxon t1, Taxon t2, const vector<double>& myD) const {
-  Taxon a = min(t1, t2);
-  Taxon b = max(t1, t2);
+double DistanceMatrix::get(Taxon t1, Taxon t2, const std::vector<double>& myD) const {
+  Taxon a = std::min(t1, t2);
+  Taxon b = std::max(t1, t2);
 
   return myD[(b * (b+1))/2 + a];
 };
 
 
-unordered_set<Clade> DistanceMatrix::upgma() {
-  PROGRESS << "Running UPGMA\n";
-  vector<double> myD(d);
-  vector<double> myMask(mask_);
+std::unordered_set<Clade> DistanceMatrix::upgma() {
+  DLOG(INFO) << "Running UPGMA\n";
+  std::vector<double> myD(d);
+  std::vector<double> myMask(mask_);
 
-  unordered_set<Clade> clades;
+  std::unordered_set<Clade> clades;
   DisjointSet sets(ts->size(), *ts);
-  priority_queue<tuple<double, Taxon, Taxon, int, int>, vector<tuple<double, Taxon, Taxon, int, int>>, greater<tuple<double, Taxon, Taxon, int, int>>> pq;
+  std::priority_queue<std::tuple<double, Taxon, Taxon, int, int>, std::vector<std::tuple<double, Taxon, Taxon, int, int>>, std::greater<std::tuple<double, Taxon, Taxon, int, int>>> pq;
 
   for (Taxon t1 : ts->taxa_bs) {
     Clade c(*ts);
@@ -110,7 +110,7 @@ unordered_set<Clade> DistanceMatrix::upgma() {
     clades.insert(c);
     for (Taxon t2 : ts->taxa_bs) {
       if (t1 < t2 && !isMasked(t1, t2))
-        pq.push(make_tuple(get(t1, t2), t1, t2, 1, 1));
+        pq.push(std::make_tuple(get(t1, t2), t1, t2, 1, 1));
     }
   }
 
@@ -119,7 +119,7 @@ unordered_set<Clade> DistanceMatrix::upgma() {
   int s1, s2;
 
   while(pq.size()) {
-    tie(dist, t1, t2, s1, s2) = pq.top();
+    std::tie(dist, t1, t2, s1, s2) = pq.top();
     pq.pop();
 
     if (sets.find(t1) != t1 || sets.find(t2) != t2)
@@ -137,7 +137,7 @@ unordered_set<Clade> DistanceMatrix::upgma() {
         get(sets.find(t1), t, myD) = (get(t1, t, myMask) * get(t1, t, myD) + get(t2, t, myMask) * get(t2, t, myD))/((get(t1, t, myMask) + get(t2, t, myMask)));
         masked(sets.find(t1), t) = 1;
 
-        pq.push(make_tuple(get(sets.find(t1), t, myD), sets.find(t1), t, sets.size[sets.find(t1)], sets.size[t]));
+        pq.push(std::make_tuple(get(sets.find(t1), t, myD), sets.find(t1), t, sets.size[sets.find(t1)], sets.size[t]));
 
       }
     }

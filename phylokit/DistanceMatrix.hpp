@@ -3,7 +3,6 @@
 
 #include "Clade.hpp"
 #include "TaxonSet.hpp"
-#include "util/Logger.hpp"
 #include <unordered_set>
 #include <vector>
 #include <functional>
@@ -11,20 +10,20 @@
 class DistanceMatrix {
 private:
   const TaxonSet* ts;
-  vector<double> d;
-  vector<double> mask_;
+  std::vector<double> d;
+  std::vector<double> mask_;
 
 public:
   DistanceMatrix(const TaxonSet& ts);
-  DistanceMatrix(const TaxonSet& ts, string newick);
+  DistanceMatrix(const TaxonSet& ts, std::string newick);
   DistanceMatrix(const DistanceMatrix& other) :
     ts(other.ts),
     d(other.d),
     mask_(other.mask_)
   {}
 
-  double& get(Taxon t1, Taxon t2, vector<double>& myD);
-  double get(Taxon t1, Taxon t2, const vector<double>& myD) const;
+  double& get(Taxon t1, Taxon t2, std::vector<double>& myD);
+  double get(Taxon t1, Taxon t2, const std::vector<double>& myD) const;
 
   double& operator()(Taxon t1, Taxon t2) {
     return get(t1, t2);
@@ -74,19 +73,19 @@ public:
     return *this;
   }
 
-  string str();
+  std::string str();
 
 
-  unordered_set<Clade> upgma();
+  std::unordered_set<Clade> upgma();
 
 };
 
 
 struct DisjointSet {
-  vector<int> parent;
-  vector<int> rank;
-  vector<int> size;
-  vector<Clade> clade;
+  std::vector<int> parent;
+  std::vector<int> rank;
+  std::vector<int> size;
+  std::vector<Clade> clade;
   DisjointSet(int n, const TaxonSet& ts) :
   parent(n), rank(n, 1), size(n, 1), clade(n, ts) {
     for (int i = 0; i < n; i++) {

@@ -1,7 +1,7 @@
 #include "newick.hpp"
 #include "TreeClade.hpp"
 
-int newick_to_ts(const string& s, unordered_set<string>& taxa) {
+int newick_to_ts(const std::string& s, std::unordered_set<std::string>& taxa) {
   typedef boost::tokenizer<boost::char_separator<char> >
     tokenizer;
   boost::char_separator<char> sep(";\n", "(),:");
@@ -9,7 +9,7 @@ int newick_to_ts(const string& s, unordered_set<string>& taxa) {
 
   int taxon_count = 0;
 
-  string prevtok = "";
+  std::string prevtok = "";
 
   for (auto tok : tokens) {
     boost::algorithm::trim(tok);
@@ -21,7 +21,7 @@ int newick_to_ts(const string& s, unordered_set<string>& taxa) {
       if ((prevtok == ")") || (prevtok == ":")) {	
 		continue;
       }
-      if(tok.find_first_not_of(' ') != string::npos) {
+      if(tok.find_first_not_of(' ') != std::string::npos) {
 	taxa.insert(tok);
 	taxon_count ++;
       }
@@ -31,7 +31,7 @@ int newick_to_ts(const string& s, unordered_set<string>& taxa) {
   return taxon_count;
 }
 
-Clade newick_to_taxa(const string& s, TaxonSet& ts) {
+Clade newick_to_taxa(const std::string& s, TaxonSet& ts) {
     typedef boost::tokenizer<boost::char_separator<char> >
     tokenizer;
   boost::char_separator<char> sep(";\n", "():,");
@@ -40,7 +40,7 @@ Clade newick_to_taxa(const string& s, TaxonSet& ts) {
 
   tokenizer tokens(s, sep);
 
-  string prevtok = "";
+  std::string prevtok = "";
 
   for (auto tok : tokens) {
 
@@ -67,18 +67,18 @@ Clade newick_to_taxa(const string& s, TaxonSet& ts) {
   return clade;
 }
 
-void newick_to_dm(const string& s, TaxonSet& ts, dm_type& dist_mat, dm_type& mask_mat ) {
+void newick_to_dm(const std::string& s, TaxonSet& ts, dm_type& dist_mat, dm_type& mask_mat ) {
   typedef boost::tokenizer<boost::char_separator<char> >
     tokenizer;
   boost::char_separator<char> sep(";\n", "():,");
 
   tokenizer tokens(s, sep);
 
-  vector<double> dists(ts.size(), 0);
-  vector<double> ops(ts.size(), 0);
+  std::vector<double> dists(ts.size(), 0);
+  std::vector<double> ops(ts.size(), 0);
 
-  vector<Taxon> seen;
-  string prevtok = "";
+  std::vector<Taxon> seen;
+  std::string prevtok = "";
 
   for (auto tok : tokens) {
 
@@ -118,17 +118,17 @@ void newick_to_dm(const string& s, TaxonSet& ts, dm_type& dist_mat, dm_type& mas
   }
 }
 
-void newick_to_clades(const string& s, TaxonSet& ts, unordered_set<Clade>& clade_set) {
+void newick_to_clades(const std::string& s, TaxonSet& ts, std::unordered_set<Clade>& clade_set) {
   typedef boost::tokenizer<boost::char_separator<char> >
     tokenizer;
   boost::char_separator<char> sep(";\n", "():,");
 
   tokenizer tokens(s, sep);
 
-  vector<size_t> active;
-  vector<Clade> clades;
+  std::vector<size_t> active;
+  std::vector<Clade> clades;
 
-  string prevtok = "";
+  std::string prevtok = "";
 
   for (auto tok : tokens) {
 
@@ -160,19 +160,19 @@ void newick_to_clades(const string& s, TaxonSet& ts, unordered_set<Clade>& clade
   }
 }
 
-Tree newick_to_treeclades(const string& s, TaxonSet& ts) {
+Tree newick_to_treeclades(const std::string& s, TaxonSet& ts) {
   typedef boost::tokenizer<boost::char_separator<char> >
     tokenizer;
   boost::char_separator<char> sep(";\n", "():,");
 
   tokenizer tokens(s, sep);
 
-  vector<size_t> active;
-  vector<vector<size_t>> children;
+  std::vector<size_t> active;
+  std::vector<std::vector<size_t>> children;
 
   Tree tree(ts);
 
-  string prevtok = "";
+  std::string prevtok = "";
 
   for (auto tok : tokens) {
 
@@ -214,15 +214,15 @@ Tree newick_to_treeclades(const string& s, TaxonSet& ts) {
   return tree;
 }
 
-void newick_to_postorder(const string& s, TaxonSet& ts, vector<Taxon>& order) {
+void newick_to_postorder(const std::string& s, TaxonSet& ts, std::vector<Taxon>& order) {
   typedef boost::tokenizer<boost::char_separator<char> >
     tokenizer;
   boost::char_separator<char> sep(";\n", "():,");
-  string prevtok = "";
+  std::string prevtok = "";
 
   tokenizer tokens(s, sep);
 
-  vector<int> sizes;
+  std::vector<int> sizes;
   sizes.push_back(0);
 
   for (auto tok : tokens) {
@@ -251,16 +251,16 @@ void newick_to_postorder(const string& s, TaxonSet& ts, vector<Taxon>& order) {
 }
 
 
-string map_newick_names(const string& s, TaxonSet& ts) {
+std::string map_newick_names(const std::string& s, TaxonSet& ts) {
     typedef boost::tokenizer<boost::char_separator<char> >
     tokenizer;
   boost::char_separator<char> sep(";\n", "():,");
 
   tokenizer tokens(s, sep);
 
-  stringstream output;
+  std::stringstream output;
 
-  string prevtok = "";
+  std::string prevtok = "";
 
   for (auto tok : tokens) {
 
@@ -289,16 +289,16 @@ string map_newick_names(const string& s, TaxonSet& ts) {
 }
 
 
-string unmap_newick_names(const string& s, TaxonSet& ts) {
+std::string unmap_newick_names(const std::string& s, TaxonSet& ts) {
   typedef boost::tokenizer<boost::char_separator<char> >
     tokenizer;
   boost::char_separator<char> sep(";\n", "():,");
 
   tokenizer tokens(s, sep);
 
-  stringstream output;
+  std::stringstream output;
 
-  string prevtok = "";
+  std::string prevtok = "";
 
   for (auto tok : tokens) {
 
@@ -316,10 +316,10 @@ string unmap_newick_names(const string& s, TaxonSet& ts) {
 	continue;
       }
       boost::algorithm::trim(tok);
-      stringstream ss(tok);
+      std::stringstream ss(tok);
       int i;
       ss >> i;
-      const string& id = ts[i];
+      const std::string& id = ts[i];
       output << id;
 
     }
@@ -330,16 +330,16 @@ string unmap_newick_names(const string& s, TaxonSet& ts) {
 }
 
 
-string unmap_clade_names(const string& s, TaxonSet& ts) {
+std::string unmap_clade_names(const std::string& s, TaxonSet& ts) {
   typedef boost::tokenizer<boost::char_separator<char> >
     tokenizer;
   boost::char_separator<char> sep(";\n", "{},");
 
   tokenizer tokens(s, sep);
 
-  stringstream output;
+  std::stringstream output;
 
-  string prevtok = "";
+  std::string prevtok = "";
 
   for (auto tok : tokens) {
 
@@ -356,10 +356,10 @@ string unmap_clade_names(const string& s, TaxonSet& ts) {
 	continue;
       }
       boost::algorithm::trim(tok);
-      stringstream ss(tok);
+      std::stringstream ss(tok);
       int i;
       ss >> i;
-      const string& id = ts[i];
+      const std::string& id = ts[i];
       output << id;
 
     }

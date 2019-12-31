@@ -1,5 +1,5 @@
 #include "TreeClade.hpp"
-
+#include <glog/logging.h>
 
 Clade TreeClade::complement() const {
     return tree.root() - *this;
@@ -16,7 +16,7 @@ bool TreeClade::verify() {
 
     for (int i : children_) {
       if (tree.node(i).parent != index) {
-        cout << "Node " << i << " : " << tree.node(i) << " has wrong parent" << endl;
+        LOG(ERROR) << "Node " << i << " : " << tree.node(i) << " has wrong parent" << std::endl;
         return false;
       }
       if (!tree.node(i).verify()) {
@@ -27,12 +27,12 @@ bool TreeClade::verify() {
     }
 
     if (size() > 1 && ! (child_taxa == *this)) {
-      cout << "Node " << index << " : " << tree.node(index) << " has taxa " << static_cast<Clade>(*this) << endl;
-      cout << "when it should have taxa " << child_taxa << endl;
-      cout << "Children : " << endl;
+      LOG(ERROR) << "Node " << index << " : " << tree.node(index) << " has taxa " << static_cast<Clade>(*this) << std::endl;
+      LOG(ERROR) << "when it should have taxa " << child_taxa << std::endl;
+      LOG(ERROR) << "Children : " << std::endl;
       for (int i : children_) {
-        cout << tree.node(i) << " :: ";
-        cout << static_cast<Clade>(tree.node(i)) << endl;
+        LOG(ERROR) << tree.node(i) << " :: ";
+        LOG(ERROR) << static_cast<Clade>(tree.node(i)) << std::endl;
       }
       return false;
     }
@@ -73,7 +73,7 @@ std::ostream& operator<<(std::ostream& os, const TreeClade& tc) {
   return os;
 }
 
-  ostream& operator<<(ostream& os, const Tree& t){
+std::ostream& operator<<(std::ostream& os, const Tree& t){
     os << t.root() << ";";
     return os;
   }

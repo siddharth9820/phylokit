@@ -6,7 +6,6 @@
 #include <cstring>
 #include <cmath>
 
-
 #include <boost/tokenizer.hpp>
 #include <boost/algorithm/string.hpp>
 

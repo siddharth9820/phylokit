@@ -54,7 +54,7 @@ public:
   int addNode() {
     Tree& me = *this;
     //clades.emplace(piecewise_construct, make_tuple(next_entry), make_tuple(ts, me, next_entry));
-    clades.insert(make_pair(next_entry, TreeClade(ts, me, next_entry)));
+    clades.insert(std::make_pair(next_entry, TreeClade(ts, me, next_entry)));
     clades.at(next_entry).parent = -1;
     next_entry++;
     return next_entry - 1;
@@ -77,7 +77,7 @@ public:
 
   double RFDist(const Tree& other, bool normalized=true) const;
 };
-ostream& operator<<(ostream& os, const Tree& t);
-ostream& operator<<(ostream& os, const TreeClade& t);
+std::ostream& operator<<(std::ostream& os, const Tree& t);
+std::ostream& operator<<(std::ostream& os, const TreeClade& t);
 
 #endif

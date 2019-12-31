@@ -54,11 +54,11 @@ cc_library(
     deps = [
         ":Clade",
         ":TaxonSet",
-        "//phylokit/util:Logger",
         "@boost//:algorithm",
         "@boost//:call_traits",
         "@boost//:multi_array",
         "@boost//:tokenizer",
+	"@com_github_google_glog//:glog",
     ],
 )
 
