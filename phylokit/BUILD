@@ -10,7 +10,6 @@ cc_binary(
         ":TaxonSet",
         ":TreeClade",
         ":newick",
-        "//phylokit/util:Logger",
         "//phylokit/util:Options",
         "//phylokit/util:Timer",
     ],
@@ -30,7 +29,6 @@ cc_library(
     hdrs = ["Clade.hpp"],
     deps = [
         ":TaxonSet",
-        "//phylokit/util:Logger",
         "@boost//:algorithm",
         "@boost//:tokenizer",
     ],
