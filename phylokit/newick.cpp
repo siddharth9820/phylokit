@@ -1,9 +1,8 @@
 #include "newick.hpp"
 #include "TreeClade.hpp"
 
-int newick_to_ts(const std::string& s, std::unordered_set<std::string>& taxa) {
-  typedef boost::tokenizer<boost::char_separator<char> >
-    tokenizer;
+int newick_to_ts(const std::string &s, std::unordered_set<std::string> &taxa) {
+  typedef boost::tokenizer<boost::char_separator<char>> tokenizer;
   boost::char_separator<char> sep(";\n", "(),:");
   tokenizer tokens(s, sep);
 
@@ -14,16 +13,14 @@ int newick_to_ts(const std::string& s, std::unordered_set<std::string>& taxa) {
   for (auto tok : tokens) {
     boost::algorithm::trim(tok);
 
-
     if (tok == ":" || tok == "," || tok == "(" || tok == ")") {
     } else {
-
-      if ((prevtok == ")") || (prevtok == ":")) {	
-		continue;
+      if ((prevtok == ")") || (prevtok == ":")) {
+        continue;
       }
-      if(tok.find_first_not_of(' ') != std::string::npos) {
-	taxa.insert(tok);
-	taxon_count ++;
+      if (tok.find_first_not_of(' ') != std::string::npos) {
+        taxa.insert(tok);
+        taxon_count++;
       }
     }
     prevtok = tok;
@@ -31,9 +28,8 @@ int newick_to_ts(const std::string& s, std::unordered_set<std::string>& taxa) {
   return taxon_count;
 }
 
-Clade newick_to_taxa(const std::string& s, TaxonSet& ts) {
-    typedef boost::tokenizer<boost::char_separator<char> >
-    tokenizer;
+Clade newick_to_taxa(const std::string &s, TaxonSet &ts) {
+  typedef boost::tokenizer<boost::char_separator<char>> tokenizer;
   boost::char_separator<char> sep(";\n", "():,");
 
   Clade clade(ts);
@@ -43,33 +39,28 @@ Clade newick_to_taxa(const std::string& s, TaxonSet& ts) {
   std::string prevtok = "";
 
   for (auto tok : tokens) {
-
     if (tok == "(") {
-    }
-    else if (tok == ")") {
-    }
-    else if (tok == ":") {
+    } else if (tok == ")") {
+    } else if (tok == ":") {
     } else if (tok == ",") {
     } else {
-      if ((prevtok == ")") || (prevtok == ":") || (tok == " " && prevtok == ",")) {
-	continue;
+      if ((prevtok == ")") || (prevtok == ":") ||
+          (tok == " " && prevtok == ",")) {
+        continue;
       }
       boost::algorithm::trim(tok);
       Taxon id = ts[tok];
 
       clade.add(id);
-
-
     }
     prevtok = tok;
-
   }
   return clade;
 }
 
-void newick_to_dm(const std::string& s, TaxonSet& ts, dm_type& dist_mat, dm_type& mask_mat ) {
-  typedef boost::tokenizer<boost::char_separator<char> >
-    tokenizer;
+void newick_to_dm(const std::string &s, TaxonSet &ts, dm_type &dist_mat,
+                  dm_type &mask_mat) {
+  typedef boost::tokenizer<boost::char_separator<char>> tokenizer;
   boost::char_separator<char> sep(";\n", "():,");
 
   tokenizer tokens(s, sep);
@@ -81,36 +72,33 @@ void newick_to_dm(const std::string& s, TaxonSet& ts, dm_type& dist_mat, dm_type
   std::string prevtok = "";
 
   for (auto tok : tokens) {
-
     if (tok == "(") {
       for (Taxon s : seen) {
-	ops[s] += 1;
-	dists[s] += 1;
+        ops[s] += 1;
+        dists[s] += 1;
       }
-    }
-    else if (tok == ")") {
+    } else if (tok == ")") {
       for (Taxon s : seen) {
-	if (ops[s]) {
-	  dists[s] -= 1;
-	  ops[s] -= 1;
-	} else {
-	  dists[s] += 1;
-	}
+        if (ops[s]) {
+          dists[s] -= 1;
+          ops[s] -= 1;
+        } else {
+          dists[s] += 1;
+        }
       }
-    }
-    else if (tok == ":") {
+    } else if (tok == ":") {
     } else if (tok == ",") {
     } else {
       if (prevtok == ")" || prevtok == ":" || (tok == " " && prevtok == ",")) {
-	continue;
+        continue;
       }
       boost::algorithm::trim(tok);
       Taxon id = ts[tok];
       for (Taxon other : seen) {
-	dist_mat[other][id] += dists[other] + 2;
-	dist_mat[id][other] += dists[other] + 2;
-	mask_mat[other][id] += 1;
-	mask_mat[id][other] += 1;
+        dist_mat[other][id] += dists[other] + 2;
+        dist_mat[id][other] += dists[other] + 2;
+        mask_mat[other][id] += 1;
+        mask_mat[id][other] += 1;
       }
       seen.push_back(id);
     }
@@ -118,9 +106,9 @@ void newick_to_dm(const std::string& s, TaxonSet& ts, dm_type& dist_mat, dm_type
   }
 }
 
-void newick_to_clades(const std::string& s, TaxonSet& ts, std::unordered_set<Clade>& clade_set) {
-  typedef boost::tokenizer<boost::char_separator<char> >
-    tokenizer;
+void newick_to_clades(const std::string &s, TaxonSet &ts,
+                      std::unordered_set<Clade> &clade_set) {
+  typedef boost::tokenizer<boost::char_separator<char>> tokenizer;
   boost::char_separator<char> sep(";\n", "():,");
 
   tokenizer tokens(s, sep);
@@ -131,38 +119,34 @@ void newick_to_clades(const std::string& s, TaxonSet& ts, std::unordered_set<Cla
   std::string prevtok = "";
 
   for (auto tok : tokens) {
-
     if (tok == "(") {
       clades.emplace_back(ts);
       active.push_back(clades.size() - 1);
-    }
-    else if (tok == ")") {
+    } else if (tok == ")") {
       active.pop_back();
-    }
-    else if (tok == ":") {
+    } else if (tok == ":") {
     } else if (tok == ",") {
     } else {
-      if ((prevtok == ")") || (prevtok == ":" ) || (tok == " " && prevtok == ",")) {
-	continue;
+      if ((prevtok == ")") || (prevtok == ":") ||
+          (tok == " " && prevtok == ",")) {
+        continue;
       }
       boost::algorithm::trim(tok);
       Taxon id = ts[tok];
 
       for (size_t a : active) {
-	clades.at(a).add(id);
+        clades.at(a).add(id);
       }
-
     }
     prevtok = tok;
   }
-  for (Clade& c : clades) {
+  for (Clade &c : clades) {
     clade_set.insert(c);
   }
 }
 
-Tree newick_to_treeclades(const std::string& s, TaxonSet& ts) {
-  typedef boost::tokenizer<boost::char_separator<char> >
-    tokenizer;
+Tree newick_to_treeclades(const std::string &s, TaxonSet &ts) {
+  typedef boost::tokenizer<boost::char_separator<char>> tokenizer;
   boost::char_separator<char> sep(";\n", "():,");
 
   tokenizer tokens(s, sep);
@@ -175,48 +159,43 @@ Tree newick_to_treeclades(const std::string& s, TaxonSet& ts) {
   std::string prevtok = "";
 
   for (auto tok : tokens) {
-
     if (tok == "(") {
-
       int ind = tree.addNode();
 
-      if(active.size()) {
+      if (active.size()) {
         tree.node(active.back()).addChild(ind);
       }
       active.push_back(ind);
-    }
-    else if (tok == ")") {
+    } else if (tok == ")") {
       active.pop_back();
-    }
-    else if (tok == ":") {
+    } else if (tok == ":") {
     } else if (tok == ",") {
     } else {
       if (prevtok == ")" || prevtok == ":" || (tok == " " && prevtok == ",")) {
-	       continue;
+        continue;
       }
       boost::algorithm::trim(tok);
       Taxon id = ts[tok];
 
       int ind = tree.addNode();
 
-      if(active.size()) {
+      if (active.size()) {
         tree.node(active.back()).addChild(ind);
       }
       tree.node(ind).add(id);
 
       for (size_t a : active) {
-	       tree.node(a).add(id);
+        tree.node(a).add(id);
       }
-
     }
     prevtok = tok;
   }
   return tree;
 }
 
-void newick_to_postorder(const std::string& s, TaxonSet& ts, std::vector<Taxon>& order) {
-  typedef boost::tokenizer<boost::char_separator<char> >
-    tokenizer;
+void newick_to_postorder(const std::string &s, TaxonSet &ts,
+                         std::vector<Taxon> &order) {
+  typedef boost::tokenizer<boost::char_separator<char>> tokenizer;
   boost::char_separator<char> sep(";\n", "():,");
   std::string prevtok = "";
 
@@ -229,31 +208,26 @@ void newick_to_postorder(const std::string& s, TaxonSet& ts, std::vector<Taxon>&
     if (tok == "(") {
       sizes.back()++;
       sizes.push_back(0);
-    }
-    else if (tok == ")") {
+    } else if (tok == ")") {
       order.push_back(-1 * sizes.back());
       sizes.pop_back();
-    }
-    else if (tok == ":") {
+    } else if (tok == ":") {
     } else if (tok == ",") {
     } else {
       if (prevtok == ")" || prevtok == ":" || (tok == " " && prevtok == ",")) {
-	continue;
+        continue;
       }
-      sizes.back() ++;
+      sizes.back()++;
       boost::algorithm::trim(tok);
       Taxon id = ts[tok];
       order.push_back(id);
     }
     prevtok = tok;
   }
-
 }
 
-
-std::string map_newick_names(const std::string& s, TaxonSet& ts) {
-    typedef boost::tokenizer<boost::char_separator<char> >
-    tokenizer;
+std::string map_newick_names(const std::string &s, TaxonSet &ts) {
+  typedef boost::tokenizer<boost::char_separator<char>> tokenizer;
   boost::char_separator<char> sep(";\n", "():,");
 
   tokenizer tokens(s, sep);
@@ -263,24 +237,20 @@ std::string map_newick_names(const std::string& s, TaxonSet& ts) {
   std::string prevtok = "";
 
   for (auto tok : tokens) {
-
     if (tok == "(") {
       output << "(";
-    }
-    else if (tok == ")") {
+    } else if (tok == ")") {
       output << ")";
-    }
-    else if (tok == ":") {
+    } else if (tok == ":") {
     } else if (tok == ",") {
       output << ",";
     } else {
       if (prevtok == ")" || prevtok == ":" || (tok == " " && prevtok == ",")) {
-	continue;
+        continue;
       }
       boost::algorithm::trim(tok);
       Taxon id = ts[tok];
       output << id;
-
     }
     prevtok = tok;
   }
@@ -288,10 +258,8 @@ std::string map_newick_names(const std::string& s, TaxonSet& ts) {
   return output.str();
 }
 
-
-std::string unmap_newick_names(const std::string& s, TaxonSet& ts) {
-  typedef boost::tokenizer<boost::char_separator<char> >
-    tokenizer;
+std::string unmap_newick_names(const std::string &s, TaxonSet &ts) {
+  typedef boost::tokenizer<boost::char_separator<char>> tokenizer;
   boost::char_separator<char> sep(";\n", "():,");
 
   tokenizer tokens(s, sep);
@@ -301,27 +269,23 @@ std::string unmap_newick_names(const std::string& s, TaxonSet& ts) {
   std::string prevtok = "";
 
   for (auto tok : tokens) {
-
     if (tok == "(") {
       output << "(";
-    }
-    else if (tok == ")") {
+    } else if (tok == ")") {
       output << ")";
-    }
-    else if (tok == ":") {
+    } else if (tok == ":") {
     } else if (tok == ",") {
       output << ",";
     } else {
       if (prevtok == ")" || prevtok == ":" || (tok == " " && prevtok == ",")) {
-	continue;
+        continue;
       }
       boost::algorithm::trim(tok);
       std::stringstream ss(tok);
       int i;
       ss >> i;
-      const std::string& id = ts[i];
+      const std::string &id = ts[i];
       output << id;
-
     }
     prevtok = tok;
   }
@@ -329,10 +293,8 @@ std::string unmap_newick_names(const std::string& s, TaxonSet& ts) {
   return output.str();
 }
 
-
-std::string unmap_clade_names(const std::string& s, TaxonSet& ts) {
-  typedef boost::tokenizer<boost::char_separator<char> >
-    tokenizer;
+std::string unmap_clade_names(const std::string &s, TaxonSet &ts) {
+  typedef boost::tokenizer<boost::char_separator<char>> tokenizer;
   boost::char_separator<char> sep(";\n", "{},");
 
   tokenizer tokens(s, sep);
@@ -342,26 +304,22 @@ std::string unmap_clade_names(const std::string& s, TaxonSet& ts) {
   std::string prevtok = "";
 
   for (auto tok : tokens) {
-
     if (tok == "{") {
       output << "{";
-    }
-    else if (tok == "}") {
+    } else if (tok == "}") {
       output << "}";
-    }
-    else if (tok == ",") {
+    } else if (tok == ",") {
       output << ",";
     } else {
       if (prevtok == "}" || prevtok == ":" || (tok == " " && prevtok == ",")) {
-	continue;
+        continue;
       }
       boost::algorithm::trim(tok);
       std::stringstream ss(tok);
       int i;
       ss >> i;
-      const std::string& id = ts[i];
+      const std::string &id = ts[i];
       output << id;
-
     }
     prevtok = tok;
   }

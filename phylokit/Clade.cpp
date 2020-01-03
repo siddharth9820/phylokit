@@ -9,79 +9,65 @@
 #include <boost/tokenizer.hpp>
 #include <boost/algorithm/string.hpp>
 
+Clade::Clade(TaxonSet &ts_, std::string &str) :
+    taxa(ts_.size()),
+    ts_(&ts_),
+    sz(0) {
 
-Clade::Clade(TaxonSet& ts_, std::string& str) :
-  taxa(ts_.size()),
-  ts_(&ts_),
-  sz(0)
-{
-
-  typedef boost::tokenizer<boost::char_separator<char> >
-    tokenizer;
+  typedef boost::tokenizer<boost::char_separator<char>>
+      tokenizer;
   boost::char_separator<char> sep("{,}");
   tokenizer tokens(str, sep);
 
-  for (auto& token : tokens) {
+  for (auto &token : tokens) {
     add(ts_[token]);
   }
-  
+
 }
 
-Clade::Clade(const TaxonSet& ts_) :
-  taxa(ts_.size()),
-  ts_(&ts_),
-  sz(0)
-{}
+Clade::Clade(const TaxonSet &ts_) :
+    taxa(ts_.size()),
+    ts_(&ts_),
+    sz(0) {}
 
-
-Clade::Clade(const TaxonSet& ts_, Taxon t) :
-  taxa(ts_.size()),
-  ts_(&ts_),
-  sz(0)
-{
+Clade::Clade(const TaxonSet &ts_, Taxon t) :
+    taxa(ts_.size()),
+    ts_(&ts_),
+    sz(0) {
   add(t);
 }
 
-Clade::Clade(const TaxonSet& ts_, const clade_bitset& taxa) :
-  taxa(taxa),
-  ts_(&ts_),
-  sz(taxa.popcount())
-{
+Clade::Clade(const TaxonSet &ts_, const clade_bitset &taxa) :
+    taxa(taxa),
+    ts_(&ts_),
+    sz(taxa.popcount()) {
 }
 
-Clade::Clade(const TaxonSet& ts_, const std::unordered_set<Taxon>& taxa) :
-  taxa(ts_.size()),
-  ts_(&ts_),
-  sz(taxa.size())
-{
+Clade::Clade(const TaxonSet &ts_, const std::unordered_set<Taxon> &taxa) :
+    taxa(ts_.size()),
+    ts_(&ts_),
+    sz(taxa.size()) {
   for (Taxon t : taxa) {
     add(t);
   }
 }
 
-Clade::Clade(const Clade& other) :
-  taxa(other.taxa),
-  ts_(&other.ts()),
-  sz(other.sz)
-{
+Clade::Clade(const Clade &other) :
+    taxa(other.taxa),
+    ts_(&other.ts()),
+    sz(other.sz) {
 }
 
-
-
-Clade& Clade::operator=(const Clade& other) {
-   taxa = other.taxa;
-   ts_ = other.ts_;
-   sz = other.sz;
-   return *this;
+Clade &Clade::operator=(const Clade &other) {
+  taxa = other.taxa;
+  ts_ = other.ts_;
+  sz = other.sz;
+  return *this;
 }
 
-bool Clade::operator==(const Clade& other) const {
-   return taxa == other.taxa;
+bool Clade::operator==(const Clade &other) const {
+  return taxa == other.taxa;
 }
-
-
-
-
 
 std::string Clade::str() const {
   std::stringstream ss;
@@ -101,31 +87,28 @@ std::string Clade::str() const {
   return ss.str();
 }
 
-
-Clade Clade::overlap(const Clade& other) const {
+Clade Clade::overlap(const Clade &other) const {
   clade_bitset cb = other.taxa & taxa;
   return Clade(ts(), cb);
 }
 
-int Clade::overlap_size(const Clade& other) const {
+int Clade::overlap_size(const Clade &other) const {
   return taxa.overlap_size(other.taxa);
 }
 
-
-bool Clade::contains(const Clade& other) const {
+bool Clade::contains(const Clade &other) const {
   return (other.taxa & taxa) == other.taxa;
 }
-
 
 bool Clade::contains(const Taxon taxon) const {
   return taxa.get(taxon);
 }
 
-bool Clade::compatible(const Clade& other) const {
+bool Clade::compatible(const Clade &other) const {
   return contains(other) || other.contains(*this) || overlap_size(other) == 0;
 }
 
-bool Clade::compatible(const Clade& other, const Clade& restr) const {
+bool Clade::compatible(const Clade &other, const Clade &restr) const {
   return contains(other) || other.contains(*this) || overlap_size(other) == 0;
 }
 
@@ -139,18 +122,16 @@ void Clade::remove(const Taxon taxon) {
   sz--;
 }
 
-
-void Clade::add(const Clade& other) {
+void Clade::add(const Clade &other) {
   taxa |= other.taxa;
   sz = taxa.popcount();
 }
 
-void Clade::remove(const Clade& other) {
+void Clade::remove(const Clade &other) {
   taxa &= ~other.taxa;
   sz = taxa.popcount();
 
 }
-
 
 Clade Clade::complement() const {
   BitVectorFixed comp = ts().taxa_bs & (~taxa);
@@ -158,12 +139,12 @@ Clade Clade::complement() const {
   return c;
 }
 
-Clade Clade::minus(const Clade& other) const {
+Clade Clade::minus(const Clade &other) const {
   BitVectorFixed m(taxa & (~other.taxa));
   Clade c(ts(), m);
   return c;
 }
-Clade Clade::plus(const Clade& other) const {
+Clade Clade::plus(const Clade &other) const {
   BitVectorFixed m(taxa | other.taxa);
   Clade c(ts(), m);
   return c;
@@ -180,16 +161,13 @@ Clade Clade::plus(const Taxon other) const {
   return c;
 }
 
-
-Clade Clade::operator+(const Clade& other) const {
+Clade Clade::operator+(const Clade &other) const {
   return plus(other);
 }
 
-Clade Clade::operator-(const Clade& other) const {
+Clade Clade::operator-(const Clade &other) const {
   return minus(other);
 }
-
-
 
 Clade Clade::operator+(const Taxon other) const {
   return plus(other);
@@ -199,26 +177,24 @@ Clade Clade::operator-(const Taxon other) const {
   return minus(other);
 }
 
-
-Clade& Clade::operator-=(const Clade& other){
+Clade &Clade::operator-=(const Clade &other) {
   remove(other);
   return *this;
 }
-Clade& Clade::operator+=(const Clade& other){
+Clade &Clade::operator+=(const Clade &other) {
   add(other);
   return *this;
 }
-Clade& Clade::operator-=(const Taxon other){
+Clade &Clade::operator-=(const Taxon other) {
   remove(other);
   return *this;
 }
-Clade& Clade::operator+=(const Taxon other){
+Clade &Clade::operator+=(const Taxon other) {
   add(other);
   return *this;
 }
 
-
-std::ostream& operator<<(std::ostream& os, const Clade& c) {
+std::ostream &operator<<(std::ostream &os, const Clade &c) {
   os << c.str();
   return os;
 }
@@ -227,12 +203,10 @@ int Clade::size() const {
   return sz;
 }
 
-void Clade::do_swap(Clade& other) {
+void Clade::do_swap(Clade &other) {
   std::swap(taxa, other.taxa);
   std::swap(sz, other.sz);
 }
-
-
 
 std::string Bipartition::str() const {
   return "{" + a1.str() + " " + a2.str() + "}";

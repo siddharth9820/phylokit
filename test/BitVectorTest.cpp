@@ -20,7 +20,6 @@ TEST_CASE("Bitvector set and get work") {
   }
 }
 
-
 TEST_CASE("Bitvector unset") {
   size_t sz = 5000;
   BitVectorFixed bvf(sz);
@@ -83,13 +82,11 @@ TEST_CASE("BitVector compare unequal BitVectors") {
 }
 
 TEST_CASE("BitVector compare unequal BitVectors") {
-size_t sz = 5000;
-BitVectorFixed bvf1(sz);
-BitVectorFixed bvf2(sz);
-bvf1.set(5);
-bvf2.set(434);
-REQUIRE(!(bvf1 == bvf2));
-REQUIRE(bvf1 != bvf2);
+  size_t sz = 5000;
+  BitVectorFixed bvf1(sz);
+  BitVectorFixed bvf2(sz);
+  bvf1.set(5);
+  bvf2.set(434);
+  REQUIRE(!(bvf1 == bvf2));
+  REQUIRE(bvf1 != bvf2);
 }
-
-
