@@ -6,3 +6,12 @@ cc_test(
         "@catch2//:main",
     ],
 )
+
+cc_test(
+    name = "NewickTest",
+    srcs = ["newickTest.cpp"],
+    deps = [
+        "//phylokit:newick",
+        "@catch2//:main",
+    ],
+)

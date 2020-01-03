@@ -26,6 +26,9 @@ Tree newick_to_treeclades(const std::string& s, TaxonSet& ts);
 void newick_to_postorder(const std::string& s, TaxonSet& ts,
                          std::vector<Taxon>& order);
 
+bool is_rooted(const std::string& tree);
+std::string deroot(const std::string& tree);
+
 std::string map_newick_names(const std::string& s, TaxonSet& ts);
 std::string unmap_newick_names(const std::string& s, TaxonSet& ts);
 std::string unmap_clade_names(const std::string& s, TaxonSet& ts);

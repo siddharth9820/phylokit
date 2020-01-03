@@ -226,6 +226,88 @@ void newick_to_postorder(const std::string &s, TaxonSet &ts,
   }
 }
 
+bool is_rooted(const std::string& newick) {
+  typedef boost::tokenizer<boost::char_separator<char>> tokenizer;
+  boost::char_separator<char> sep(";\n", "():,");
+
+  std::string prevtok = "";
+  tokenizer tokens(newick, sep);
+
+  int paren_count = 0;
+  int root_child_count = 0;
+  for (auto tok: tokens) {
+    if (tok == "(") {
+      if (paren_count == 1) { // at root level
+        root_child_count++;
+      }
+      paren_count++;
+    } else if (tok == ")") {
+      paren_count--;
+    } else if (tok == ":") {
+    } else if (tok == ",") {
+    } else {
+      if (prevtok == ")" || prevtok == ":" || (tok == " " && prevtok == ",")) {
+        continue;
+      }
+      if (paren_count == 1) { //lone taxa attached to root
+        root_child_count++;
+      }
+    }
+    prevtok = tok;
+  }
+  return root_child_count == 2;
+}
+std::string deroot(const std::string& newick) {
+  if (!is_rooted(newick)) {
+    return newick;
+  }
+
+  std::stringstream outputtree;
+  typedef boost::tokenizer<boost::char_separator<char>> tokenizer;
+  boost::char_separator<char> sep(";\n", "():,");
+
+  std::string prevtok = "";
+  tokenizer tokens(newick, sep);
+
+  int paren_count = 0;
+  int root_child_count = 0;
+  int big_root_child_count = 0;
+
+  for (auto tok: tokens) {
+    bool copy_token = true;
+    if (tok == "(") {
+      if (paren_count == 1) { // at root level
+        root_child_count++;
+        big_root_child_count++;
+        if (big_root_child_count == 1) {
+          copy_token = false;
+        }
+      }
+      paren_count++;
+    } else if (tok == ")") {
+      paren_count--;
+      if (paren_count == 1 && big_root_child_count == 1) {
+        copy_token = false;
+      }
+    } else if (tok == ":") {
+    } else if (tok == ",") {
+    } else {
+      if (prevtok == ")" || prevtok == ":" || (tok == " " && prevtok == ",")) {
+        outputtree << tok;
+        continue;
+      }
+      if (paren_count == 1) { //lone taxa attached to root
+        root_child_count++;
+      }
+    }
+    if (copy_token) {
+      outputtree << tok;
+    }
+    prevtok = tok;
+  }
+  return outputtree.str();
+}
+
 std::string map_newick_names(const std::string &s, TaxonSet &ts) {
   typedef boost::tokenizer<boost::char_separator<char>> tokenizer;
   boost::char_separator<char> sep(";\n", "():,");
