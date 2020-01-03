@@ -43,22 +43,53 @@ TEST_CASE("Bitvector copy constructor") {
   REQUIRE(bvf == copy);
 }
 
-TEST_CASE("Bitvector ffs") {
+TEST_CASE("Bitvector ffs on empty bitvector") {
   size_t sz = 5000;
   BitVectorFixed bvf(sz);
   REQUIRE(bvf.ffs() == -1);
+}
+
+TEST_CASE("Bitvector ffs") {
+  size_t sz = 5000;
+  BitVectorFixed bvf(sz);
   for (int i = 4999; i >= 0; i--) {
     bvf.set(i);
     REQUIRE(bvf.ffs() == i);
   }
 }
+TEST_CASE("BitVector popcount on empty bitvector") {
+  size_t sz = 5000;
+  BitVectorFixed bvf(sz);
+  REQUIRE(bvf.popcount() == 0);
+}
 
 TEST_CASE("BitVector popcount") {
   size_t sz = 5000;
   BitVectorFixed bvf(sz);
-  REQUIRE(bvf.popcount() == 0);
   for (size_t i = 0; i < sz; i++) {
     bvf.set(i);
     REQUIRE(bvf.popcount() == i + 1);
   }
 }
+
+TEST_CASE("BitVector compare unequal BitVectors") {
+  size_t sz = 5000;
+  BitVectorFixed bvf1(sz);
+  BitVectorFixed bvf2(sz);
+  bvf1.set(5);
+  bvf2.set(434);
+  REQUIRE(!(bvf1 == bvf2));
+  REQUIRE(bvf1 != bvf2);
+}
+
+TEST_CASE("BitVector compare unequal BitVectors") {
+size_t sz = 5000;
+BitVectorFixed bvf1(sz);
+BitVectorFixed bvf2(sz);
+bvf1.set(5);
+bvf2.set(434);
+REQUIRE(!(bvf1 == bvf2));
+REQUIRE(bvf1 != bvf2);
+}
+
+
