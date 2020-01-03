@@ -81,12 +81,14 @@ TEST_CASE("BitVector compare unequal BitVectors") {
   REQUIRE(bvf1 != bvf2);
 }
 
-TEST_CASE("BitVector compare unequal BitVectors") {
+TEST_CASE("BitVector compare equal BitVectors") {
   size_t sz = 5000;
   BitVectorFixed bvf1(sz);
   BitVectorFixed bvf2(sz);
   bvf1.set(5);
   bvf2.set(434);
-  REQUIRE(!(bvf1 == bvf2));
-  REQUIRE(bvf1 != bvf2);
+  bvf1.set(434);
+  bvf2.set(5);
+  REQUIRE(!(bvf1 != bvf2));
+  REQUIRE(bvf1 == bvf2);
 }

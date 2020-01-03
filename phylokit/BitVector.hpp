@@ -36,6 +36,7 @@ class BitVectorFixed {
   void do_swap(BitVectorFixed &other);
 
   bool operator==(const BitVectorFixed &other) const;
+  bool operator!=(const BitVectorFixed &other) const;
   BitVectorFixed operator&(const BitVectorFixed &other) const;
   BitVectorFixed &operator&=(const BitVectorFixed &other);
   BitVectorFixed operator|(const BitVectorFixed &other) const;

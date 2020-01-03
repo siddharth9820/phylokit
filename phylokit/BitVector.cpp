@@ -119,7 +119,7 @@ bool BitVectorFixed::operator==(const BitVectorFixed &other) const {
 }
 
 bool BitVectorFixed::operator!=(const BitVectorFixed &other) const {
-  !(*this == other);
+  return !(*this == other);
 }
 
 size_t BitVectorFixed::hash() const {
