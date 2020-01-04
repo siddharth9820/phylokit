@@ -20,7 +20,7 @@ git_repository(
 
 git_repository(
     name = "com_github_google_glog",
-    commit = "96a2f23dca4cc7180821ca5f32e526314395d26a",
+    commit = "445af7ef7e6224340940c9b7d8e27c3b90d00101",
     remote = "https://github.com/google/glog/",
     shallow_since = "1553223106 +0900",
 )
