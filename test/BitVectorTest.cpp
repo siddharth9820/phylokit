@@ -92,3 +92,5 @@ TEST_CASE("BitVector compare equal BitVectors") {
   REQUIRE(!(bvf1 != bvf2));
   REQUIRE(bvf1 == bvf2);
 }
+
+TEST_CASE("BitVector hash")

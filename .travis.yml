@@ -37,4 +37,4 @@ before_install:
 
 script:
   - bazel --bazelrc=bazel.travis.rc build -k phylokit:all
-  - bazel --bazelrc=bazel.travis.rc test -k test:all
+  - bazel --bazelrc=bazel.travis.rc test -k test:all --test_output=all
