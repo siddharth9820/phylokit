@@ -18,8 +18,7 @@ typedef boost::multi_array<double, 2> dm_type;
 int newick_to_ts(const std::string& s, std::unordered_set<std::string>& taxa);
 
 Clade newick_to_taxa(const std::string& s, TaxonSet& ts);
-void newick_to_dm(const std::string& s, TaxonSet& ts, dm_type& dist_mat,
-                  dm_type& mask_mat);
+
 void newick_to_clades(const std::string& s, TaxonSet& ts,
                       std::unordered_set<Clade>& clade_set);
 Tree newick_to_treeclades(const std::string& s, TaxonSet& ts);

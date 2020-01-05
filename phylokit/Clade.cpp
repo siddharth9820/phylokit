@@ -9,7 +9,7 @@
 #include <boost/tokenizer.hpp>
 #include <boost/algorithm/string.hpp>
 
-Clade::Clade(TaxonSet &ts_, std::string &str) :
+Clade::Clade(TaxonSet &ts_, const std::string &str) :
     taxa(ts_.size()),
     ts_(&ts_),
     sz(0) {

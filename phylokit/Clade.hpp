@@ -20,7 +20,7 @@ class Clade {
 
  public:
 
-  Clade(TaxonSet &ts, std::string &str);
+  Clade(TaxonSet &ts, const std::string &str);
   Clade(const TaxonSet &ts, Taxon t);
   Clade(const TaxonSet &ts, const clade_bitset &taxa);
   Clade(const TaxonSet &ts, const std::unordered_set<Taxon> &taxa);
