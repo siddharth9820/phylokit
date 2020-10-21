@@ -1,0 +1,28 @@
+cc_library(
+    name = "phylokit",
+    deps = [
+        "//phylokit:BitVector",
+        "//phylokit:Clade",
+        "//phylokit:DistanceMatrix",
+        "//phylokit:Quartet",
+        "//phylokit:TaxonSet",
+        "//phylokit:TreeClade",
+        "//phylokit:newick",
+        "//phylokit/util:Logger",
+        "//phylokit/util:Options",
+        "//phylokit/util:Timer",
+    ],
+    hdrs = [
+        "//phylokit:BitVector.hpp",
+        "//phylokit:Clade.hpp",
+        "//phylokit:DistanceMatrix.hpp",
+        "//phylokit:Quartet.hpp",
+        "//phylokit:TaxonSet.hpp",
+        "//phylokit:TreeClade.hpp",
+        "//phylokit:newick.hpp",
+        "//phylokit/util:Logger.hpp",
+        "//phylokit/util:Options.hpp",
+        "//phylokit/util:Timer.hpp",
+    ],
+    visibility = ["//visibility:public"],
+)

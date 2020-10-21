@@ -1,0 +1,12 @@
+# This is the default project view file for CLion. It describes which
+# directories and targets CLion should traverse when ingesting the Bazel build.
+#
+# Detailed documentation for the file format is available at
+# https://ij.bazel.build/docs/project-views.html
+
+directories:  .
+  -phylokit
+  -test
+
+targets:
+  //...:all
