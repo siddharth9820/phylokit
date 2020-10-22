@@ -92,3 +92,14 @@ TEST_CASE("BitVector compare equal BitVectors") {
   REQUIRE(!(bvf1 != bvf2));
   REQUIRE(bvf1 == bvf2);
 }
+
+TEST_CASE("BitVector hash comparison equal bitvectors") {
+  size_t sz = 5000;
+  BitVectorFixed bvf1(sz);
+  BitVectorFixed bvf2(sz);
+  bvf1.set(5);
+  bvf2.set(434);
+  bvf1.set(434);
+  bvf2.set(5);
+  REQUIRE(bvf1.hash() == bvf2.hash());
+}

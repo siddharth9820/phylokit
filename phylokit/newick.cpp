@@ -1,5 +1,9 @@
 #include "newick.hpp"
 #include "TreeClade.hpp"
+#include <glog/logging.h>
+#include <iostream>
+
+using std::endl;
 
 int newick_to_ts(const std::string &s, std::unordered_set<std::string> &taxa) {
   typedef boost::tokenizer<boost::char_separator<char>> tokenizer;

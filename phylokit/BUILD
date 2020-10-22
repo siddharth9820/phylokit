@@ -72,6 +72,7 @@ cc_library(
         "@boost//:call_traits",
         "@boost//:multi_array",
         "@boost//:tokenizer",
+        "@com_github_google_glog//:glog",
     ],
 )
 

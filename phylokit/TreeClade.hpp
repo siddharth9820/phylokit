@@ -16,6 +16,18 @@ class TreeClade : public Clade {
   using Clade::Clade;
   TreeClade(TaxonSet &ts, Tree &tree, int index)
       : Clade(ts), index(index), tree(tree) {}
+  TreeClade(TaxonSet& ts, Tree &tree, const TreeClade& other)
+      : Clade(other), 
+        children_(other.children_), 
+        parent(other.parent),
+        index(other.index), 
+        tree(tree) {}
+  TreeClade(TaxonSet& ts, Tree &tree, const TreeClade&& other)
+      : Clade(other), 
+        children_(other.children_), 
+        parent(other.parent),
+        index(other.index), 
+        tree(tree) {}
   void addChild(int index);
   std::vector<int> &children();
   const std::vector<int> &children() const;
@@ -34,6 +46,21 @@ class Tree {
   TaxonSet &ts;
 
   Tree(TaxonSet &ts) : next_entry(0), ts(ts) {}
+  Tree(const Tree &other) : 
+    next_entry(other.next_entry),
+    ts(other.ts) {
+      for (auto& i : other.clades) {
+        clades.emplace(i.first, TreeClade(ts, *this, i.second));
+      }
+  }
+  Tree(Tree &&other)  : 
+    next_entry(other.next_entry),
+    ts(other.ts) {
+      for (auto& i : other.clades) {
+        clades.emplace(i.first, TreeClade(ts, *this, i.second));
+      }
+  }
+
   TreeClade &root() { return clades.at(0); }
   const TreeClade &root() const { return clades.at(0); }
   TreeClade &node(int n) { return clades.at(n); }

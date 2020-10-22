@@ -1,7 +1,11 @@
 #include <string>
 #include "catch2.hpp"
+#include <iostream>
 #include "phylokit/Clade.hpp"
 #include "phylokit/newick.hpp"
+
+using std::endl;
+using std::cerr;
 
 TEST_CASE("rooted tree is_rooted") {
   REQUIRE(is_rooted("((a, b), c)"));
@@ -106,6 +110,7 @@ TEST_CASE("newick_to_treeclades") {
 
   SECTION("Single tree") {
     Tree tree = newick_to_treeclades("(a, ((b, c), (d, e)))", ts);
+    
     CHECK(tree.root() == Clade(ts, "a,b,c,d,e"));
     CHECK(tree.root().nchildren() == 2);
     CHECK(tree.root().child(0) == Clade(ts, "a"));
@@ -113,6 +118,7 @@ TEST_CASE("newick_to_treeclades") {
     CHECK(tree.root().child(1).child(0) == Clade(ts, "b,c"));
     CHECK(tree.root().child(1).child(1) == Clade(ts, "d,e"));
     CHECK(tree.clades.size() == 9);
+    
     for (auto& c_it : tree.clades) {
       for (int i = 0; i < c_it.second.nchildren(); i++) {
         CHECK(c_it.second.child(i).parent == c_it.first);
