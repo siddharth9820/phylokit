@@ -3,7 +3,7 @@
 
 #include <algorithm>
 #include <bitset>
-#include <map>
+#include <unordered_map>
 #include <sstream>
 #include <string>
 #include <unordered_set>
@@ -19,7 +19,7 @@ class TaxonSet {
  private:
   std::unordered_set<std::string> taxa_set;
   std::vector<std::string> taxa;
-  std::map<std::string, Taxon> index;
+  std::unordered_map<std::string, Taxon> index;
   bool frozen;
   TaxonSet(const TaxonSet &other);
   TaxonSet &operator=(const TaxonSet &other);
