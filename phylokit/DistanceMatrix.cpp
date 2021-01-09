@@ -75,6 +75,20 @@ std::string DistanceMatrix::str() {
   return ss.str();
 }
 
+
+std::ostream& DistanceMatrix::writePhylip(std::ostream& out) {
+  out << ts->size();
+  out << std::endl;
+  for (Taxon t1 : *ts) {
+    for (Taxon t2 : *ts) {
+      out << get(t1, t2) << " ";
+    }
+    out << std::endl;
+  }
+  return out;
+}
+
+
 double &DistanceMatrix::get(Taxon t1, Taxon t2, std::vector<double> &myD) {
   Taxon a = std::min(t1, t2);
   Taxon b = std::max(t1, t2);

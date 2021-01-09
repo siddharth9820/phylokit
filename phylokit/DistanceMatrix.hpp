@@ -4,6 +4,7 @@
 #include <functional>
 #include <unordered_set>
 #include <vector>
+#include <ostream>
 #include "Clade.hpp"
 #include "TaxonSet.hpp"
 
@@ -58,6 +59,7 @@ class DistanceMatrix {
   }
 
   std::string str();
+  std::ostream& writePhylip(std::ostream& out);
 
   std::unordered_set<Clade> upgma();
 };
