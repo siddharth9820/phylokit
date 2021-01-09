@@ -80,6 +80,7 @@ std::ostream& DistanceMatrix::writePhylip(std::ostream& out) {
   out << ts->size();
   out << std::endl;
   for (Taxon t1 : *ts) {
+    out << ts[t1] << " ";
     for (Taxon t2 : *ts) {
       out << get(t1, t2) << " ";
     }
