@@ -5,6 +5,7 @@
 #include <bitset>
 #include <cassert>
 #include <iostream>
+#include <omp.h>
 
 #ifdef _WIN32
 #include <intrin.h>
@@ -66,6 +67,7 @@ BitVectorFixed::~BitVectorFixed() {
 void BitVectorFixed::set(int i) {
   assert(cap > i/(8*sizeof(elem_type)));
   elem_type val = ((elem_type)1 << i%(8*sizeof(elem_type)));
+  #pragma omp atomic 
   data[i/(8*sizeof(elem_type))] |= val;
 }
 

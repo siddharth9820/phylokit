@@ -11,7 +11,7 @@ file(GLOB UHEADERS util/*.hpp)
 if(WIN32)
 add_definitions(/std:c++14)
 else()
-add_definitions(-std=c++14 -g -O3 -Wall)
+add_definitions(-std=c++14 -g -O3 -Wall -fopenmp)
 endif()
 find_package(Boost)
 if(Boost_FOUND)
@@ -40,13 +40,16 @@ else()
 ENDIF()	
 endif()
 
+find_package(OpenMP REQUIRED)
 
 IF (NOT(BUILD_STATIC))
 
 ADD_LIBRARY(phylokit_shared SHARED ${SOURCES} )
 SET_TARGET_PROPERTIES(phylokit_shared PROPERTIES OUTPUT_NAME phylokit)
-TARGET_LINK_LIBRARIES(phylokit_shared ${Boost_LIBRARIES} )
+TARGET_LINK_LIBRARIES(phylokit_shared ${Boost_LIBRARIES} OpenMP::OpenMP_CXX)
 
+install(FILES ${HEADERS} DESTINATION include/)
+install(FILES ${UHEADERS} DESTINATION include/util/)
 install(TARGETS phylokit_shared DESTINATION lib/)
 ENDIF()
 
